@@ -5,26 +5,27 @@ import {
   AnimatePresence,
   motion,
   useInView,
-  useScroll,
-  useTransform,
 } from "framer-motion";
 import {
-  User,
-  Award,
   BookOpen,
-  Briefcase,
   Code,
   Database,
   Globe,
   Terminal,
-  Calendar,
   MapPin,
   Mail,
   Phone,
   MessageCircle,
+  Link2,
+  Palette,
+  ShieldCheck,
+  Search,
+  Megaphone,
+  BarChart3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import aboutUsImage from "@/public/img/about-us-img.jpg";
 
 interface Skill {
   name: string;
@@ -39,7 +40,7 @@ interface Experience {
   title: string;
   company: string;
   period: string;
-  description: string;
+  description: string[];
   technologies: string[];
 }
 
@@ -48,7 +49,7 @@ interface Education {
   degree: string;
   institution: string;
   period: string;
-  description: string;
+  description: string[];
 }
 
 const AboutSection = () => {
@@ -59,96 +60,113 @@ const AboutSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
+const skills: Skill[] = [
+  // Frontend
+  {
+    name: "Frontend Development (React.js & Next.js)",
+    level: 90,
+    icon: <Code size={20} />,
+    color: "from-cyan-400 to-blue-500",
+    barColor: "bg-gradient-to-r from-cyan-500 to-blue-600",
+  },
+  // Backend
+  {
+    name: "Backend Development (Node.js & Express.js)",
+    level: 85,
+    icon: <Terminal size={20} />,
+    color: "from-emerald-400 to-green-500",
+    barColor: "bg-gradient-to-r from-emerald-500 to-green-600",
+  },
+  // SEO & Marketing
+  {
+    name: "Technical SEO & Analytics",
+    level: 75,
+    icon: <Search size={20} />,
+    color: "from-indigo-400 to-violet-500",
+    barColor: "bg-gradient-to-r from-indigo-500 to-violet-600",
+  },
+  {
+    name: "Social Media Marketing",
+    level: 70,
+    icon: <Megaphone size={20} />,
+    color: "from-fuchsia-400 to-pink-500",
+    barColor: "bg-gradient-to-r from-fuchsia-500 to-pink-600",
+  },
+  {
+    name: "Meta Ads & Campaigns",
+    level: 65,
+    icon: <BarChart3 size={20} />,
+    color: "from-blue-400 to-indigo-500",
+    barColor: "bg-gradient-to-r from-blue-500 to-indigo-600",
+  },
+];
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
 
-  const skills: Skill[] = [
-    {
-      name: "React / Next.js",
-      level: 95,
-      icon: <Code size={20} />,
-      color: "from-cyan-400 to-blue-500",
-      barColor: "bg-gradient-to-r from-cyan-500 to-blue-600",
-    },
-    {
-      name: "Node.js / Express",
-      level: 90,
-      icon: <Terminal size={20} />,
-      color: "from-emerald-400 to-teal-500",
-      barColor: "bg-gradient-to-r from-emerald-500 to-teal-600",
-    },
-    {
-      name: "MongoDB",
-      level: 85,
-      icon: <Database size={20} />,
-      color: "from-green-400 to-emerald-500",
-      barColor: "bg-gradient-to-r from-green-500 to-emerald-600",
-    },
-    {
-      name: "TypeScript",
-      level: 88,
-      icon: <Code size={20} />,
-      color: "from-blue-400 to-indigo-500",
-      barColor: "bg-gradient-to-r from-blue-500 to-indigo-600",
-    },
-    {
-      name: "Tailwind CSS",
-      level: 92,
-      icon: <Globe size={20} />,
-      color: "from-sky-400 to-cyan-500",
-      barColor: "bg-gradient-to-r from-sky-500 to-cyan-600",
-    },
-    {
-      name: "Digital Marketing Strategy",
-      level: 85,
-      icon: <Globe size={20} />,
-      color: "from-pink-400 to-rose-500",
-      barColor: "bg-gradient-to-r from-pink-500 to-rose-600",
-    },
-  ];
+ const experiences: Experience[] = [
+   {
+     id: 1,
+     title: "Junior Full Stack Developer",
+     company: "Freelance",
+     period: "Mar 2024 - Present",
+     description: [
+       "Developing responsive and user-friendly web applications using React.js, Next.js, TypeScript, Tailwind CSS, and Shadcn UI.",
+       "Building secure RESTful APIs with Node.js and Express.js.",
+       "Designing and managing MongoDB databases using Mongoose.",
+       "Implementing authentication with JWT and Firebase Authentication.",
+       "Integrating third-party APIs and payment gateways.",
+       "Writing clean, maintainable, and scalable code following modern development best practices.",
+       "Optimizing application performance and ensuring responsive user experiences.",
+     ],
+     technologies: [
+       "React.js",
+       "Next.js",
+       "TypeScript",
+       "Redux Toolkit",
+       "Node.js",
+       "Express.js",
+       "MongoDB",
+       "Mongoose",
+       "Tailwind CSS",
+       "Shadcn UI",
+     ],
+   }
+ ];
 
-  const experiences: Experience[] = [
-    {
-      id: 1,
-      title: "Senior Full-Stack MERN Developer",
-      company: "Freelance & Remote Clients",
-      period: "2022 - Present",
-      description:
-        "Architecting scalable SaaS platforms, REST APIs, and high-performance web applications using MERN stack and Next.js.",
-      technologies: ["React", "Next.js", "Node.js", "MongoDB", "TypeScript"],
-    },
-    {
-      id: 2,
-      title: "Full-Stack Developer",
-      company: "Digital Product Agency",
-      period: "2020 - 2022",
-      description:
-        "Built responsive web applications and integrated marketing-driven analytics solutions to improve user engagement.",
-      technologies: ["Express", "Redux", "PostgreSQL", "SEO", "Analytics"],
-    },
-  ];
-
-  const education: Education[] = [
-    {
-      id: 1,
-      degree: "Bachelor of Science in Computer Science",
-      institution: "University",
-      period: "2015 - 2019",
-      description:
-        "Focused on Software Engineering, Data Structures, and Web Development.",
-    },
-  ];
-
-  const stats = [
-    { number: "50+", label: "Projects", icon: <Briefcase size={20} /> },
-    { number: "5+", label: "Years Experience", icon: <Calendar size={20} /> },
-    { number: "30+", label: "Clients", icon: <User size={20} /> },
-    { number: "100%", label: "Commitment", icon: <Award size={20} /> },
-  ];
+ const education: Education[] = [
+   {
+     id: 1,
+     degree: "Master of Arts (M.A.) in Islamic History & Culture",
+     institution: "Govt. B.L. College, Khulna",
+     period: "Sep 2025 - Present",
+     description: [
+       "Currently pursuing a Master of Arts (M.A.) in Islamic History & Culture under National University, Bangladesh.",
+       "Enrolled in the Department of Islamic History & Culture (Session: 2022–2023).",
+       "Expanding knowledge through advanced academic studies while continuing professional development in software engineering.",
+     ],
+   },
+   {
+     id: 2,
+     degree: "Bachelor of Arts (B.A.)",
+     institution: "Sahid Abul Kashem Degree College",
+     period: "Oct 2019 - Mar 2022",
+     description: [
+       "Completed a Bachelor of Arts under National University, Bangladesh.",
+       "Major subjects included Political Science, Sociology, and Islamic History.",
+       "Graduated with a CGPA of 2.58 out of 4.00.",
+     ],
+   },
+   {
+     id: 3,
+     degree: "Higher Secondary Certificate (HSC) – Business Studies",
+     institution: "Bangladesh Noubahini School & College",
+     period: "Jul 2016 - Oct 2019",
+     description: [
+       "Completed Higher Secondary education in Business Studies.",
+       "Built a strong foundation in business, accounting, finance, and economics.",
+       "Achieved a GPA of 3.00 out of 5.00.",
+     ],
+   },
+ ];
 
   return (
     <section
@@ -203,7 +221,7 @@ const AboutSection = () => {
             {/* Profile Card */}
             <div className="relative h-[450px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
               <Image
-                src="https://i.ibb.co.com/21fyZxZ8/facebook-bg-photo.jpg"
+                src={aboutUsImage}
                 alt="Md Hasanuzzaman Shohag"
                 fill
                 className="object-cover"
@@ -215,13 +233,13 @@ const AboutSection = () => {
                   Md Hasanuzzaman Shohag
                 </h3> */}
                 <p className="text-cyan-400 font-semibold">
-                  Full-Stack Developer & Digital Marketing Strategist
+                  Junior Full Stack Developer
                 </p>
                 <p className="text-slate-300 text-sm mt-3">
-                  I build scalable, high-performance web applications using
-                  MongoDB, Express.js, React, Node.js, Next.js, and TypeScript —
-                  blending clean architecture with data-driven marketing
-                  strategies to drive measurable business growth.
+                  Dedicated to developing modern full stack web applications
+                  with clean architecture, responsive interfaces, and secure
+                  backend solutions. Always eager to learn new technologies and
+                  deliver meaningful digital experiences.
                 </p>
               </div>
             </div>
@@ -370,9 +388,19 @@ const AboutSection = () => {
                         <p className="text-gray-400 text-xs mb-2">
                           {exp.period}
                         </p>
-                        <p className="text-gray-300 text-sm mb-3">
-                          {exp.description}
-                        </p>
+                        <div className="mb-4">
+                          <ul className="space-y-2">
+                            {exp.description.map((item, i) => (
+                              <li
+                                key={i}
+                                className="flex items-start gap-3 text-sm text-gray-300 leading-relaxed"
+                              >
+                                <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                         <div className="flex flex-wrap gap-2">
                           {exp.technologies.map((tech, i) => (
                             <span
@@ -423,9 +451,16 @@ const AboutSection = () => {
                         <p className="text-gray-400 text-xs mb-2">
                           {edu.period}
                         </p>
-                        <p className="text-gray-300 text-sm">
-                          {edu.description}
-                        </p>
+                        <div className="mt-4 space-y-3">
+                          {edu.description.map((item, index) => (
+                            <div key={index} className="flex items-start gap-3">
+                              <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" />
+                              <p className="text-sm leading-relaxed text-slate-300">
+                                {item}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </motion.div>
                   ))}

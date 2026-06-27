@@ -3,24 +3,22 @@
 import { useState, useEffect, useRef } from "react";
 import {
   motion,
-  useScroll,
-  useTransform,
   useSpring,
   useInView,
   MotionValue,
   AnimatePresence,
 } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import arrow from "../../public/img/bn-arrow.png"
+import arrow from "../../public/img/bn-arrow.png";
+import heroImg from "../../public/img/hero-img-1.jpg";
 import {
   ChevronDown,
   Code2,
   Database,
   Globe,
   Terminal,
-  Play, X
+  Play,
+  X,
 } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
 
 interface MousePosition {
@@ -48,25 +46,20 @@ const HeroSection = () => {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true });
-  const { scrollY }: { scrollY: MotionValue<number> } = useScroll();
-
-  const words = [
-    "Full-Stack Developer",
-    "MERN Expert",
-    "UI/UX Enthusiast",
-    "Problem Solver",
-    "Tech Innovator",
-  ];
-
-  const y1: MotionValue<number> = useTransform(scrollY, [0, 1000], [0, -150]);
-  const y2: MotionValue<number> = useTransform(scrollY, [0, 1000], [0, -250]);
-  const y3: MotionValue<number> = useTransform(scrollY, [0, 1000], [0, -350]);
 
   const springConfig = { damping: 25, stiffness: 700 };
   const x: MotionValue<number> = useSpring(mousePosition.x, springConfig);
   const y: MotionValue<number> = useSpring(mousePosition.y, springConfig);
 
   useEffect(() => {
+    const words: string[] = [
+      "Junior Full Stack Developer",
+      "Performance Focused",
+      "Passionate Problem Solver",
+      "Turning Ideas into Reality",
+      "Continuous Learner",
+    ];
+
     const currentWord = words[currentWordIndex];
     const typingSpeed = isDeleting ? 50 : 100;
 
@@ -87,7 +80,7 @@ const HeroSection = () => {
     }, typingSpeed);
 
     return () => clearTimeout(timer);
-  }, [displayText, isDeleting, currentWordIndex, words]);
+  }, [displayText, isDeleting, currentWordIndex]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent): void => {
@@ -104,16 +97,15 @@ const HeroSection = () => {
     return (): void => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const particles: Particle[] = Array.from(
-    { length: 15 },
-    (_, i): Particle => ({
+  const [particles] = useState<Particle[]>(() =>
+    Array.from({ length: 15 }, (_, i) => ({
       id: i,
       size: Math.random() * 15 + 8,
       initialX: Math.random() * 100,
       initialY: Math.random() * 100,
       duration: Math.random() * 50 + 40,
       delay: Math.random() * 15,
-    }),
+    })),
   );
 
   const techIcons = [
@@ -375,10 +367,10 @@ const HeroSection = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.8 }}
           >
-            Passionate about creating exceptional digital experiences through
-            clean code, innovative design, and cutting-edge technology.
-            Specializing in MERN stack development with a keen eye for user
-            experience and performance optimization.
+            I build modern, responsive, and high-performance web applications
+            using the MERN stack, Next.js, and TypeScript. Passionate about
+            creating intuitive user experiences, writing clean code, and
+            continuously expanding my skills through real-world projects.
           </motion.p>
 
           <motion.div
@@ -529,8 +521,8 @@ const HeroSection = () => {
                 transition={{ duration: 0.3 }}
               >
                 <Image
-                  src="https://hzaman.netlify.app/images/hero/2.png"
-                  alt="hzaman - Developer"
+                  src={heroImg}
+                  alt="Hasanuzzaman Image"
                   fill
                   className="object-contain sm:object-cover"
                   priority
@@ -546,7 +538,7 @@ const HeroSection = () => {
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <span className="text-xs sm:text-sm font-bold">5+ Years</span>
+              <span className="text-xs sm:text-sm font-bold">1+ Years</span>
             </motion.div>
 
             <motion.div
@@ -554,7 +546,7 @@ const HeroSection = () => {
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity, delay: 1 }}
             >
-              <span className="text-xs sm:text-sm font-bold">50+ Projects</span>
+              <span className="text-xs sm:text-sm font-bold">10+ Projects</span>
             </motion.div>
           </motion.div>
         </motion.div>

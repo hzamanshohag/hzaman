@@ -11,44 +11,44 @@ import {
   Phone,
   MapPin,
   ArrowUp,
+  ArrowUpRight,
   Heart,
   Code,
   ChevronRight,
-  Sparkles,
+  Facebook,
 } from "lucide-react";
 import Link from "next/link";
 
 const FooterSection = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const currentYear = new Date().getFullYear();
 
-   const [scrollProgress, setScrollProgress] = useState(0);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
 
-   useEffect(() => {
-     const handleScroll = () => {
-       const scrollTop = window.scrollY;
-       const height =
-         document.documentElement.scrollHeight -
-         document.documentElement.clientHeight;
+      const progress = (scrollTop / height) * 100;
 
-       const progress = (scrollTop / height) * 100;
+      setScrollProgress(progress);
+      setShowScrollTop(scrollTop > 200);
+    };
 
-       setScrollProgress(progress);
-       setShowScrollTop(scrollTop > 200);
-     };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-     window.addEventListener("scroll", handleScroll);
-     return () => window.removeEventListener("scroll", handleScroll);
-   }, []);
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-   const scrollToTop = () => {
-     window.scrollTo({ top: 0, behavior: "smooth" });
-   };
-
-   const radius = 28;
-   const circumference = 2 * Math.PI * radius;
-   const strokeDashoffset =
-     circumference - (scrollProgress / 100) * circumference;
+  const radius = 28;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset =
+    circumference - (scrollProgress / 100) * circumference;
 
   const quickLinks = [
     { name: "Home", href: "#home" },
@@ -59,62 +59,106 @@ const FooterSection = () => {
   ];
 
   const socialLinks = [
-    { icon: <Github size={18} />, href: "#", label: "GitHub" },
-    { icon: <Linkedin size={18} />, href: "#", label: "LinkedIn" },
-    { icon: <Twitter size={18} />, href: "#", label: "Twitter" },
-    { icon: <Instagram size={18} />, href: "#", label: "Instagram" },
+    {
+      icon: <Github size={20} />,
+      href: "https://github.com/hzamanshohag",
+      label: "GitHub",
+    },
+    {
+      icon: <Linkedin size={20} />,
+      href: "https://www.linkedin.com/in/hzaman-shohag",
+      label: "LinkedIn",
+    },
+    {
+      icon: <Facebook size={20} />,
+      href: "https://facebook.com/hzaman.shohag",
+      label: "Facebook",
+    },
+    {
+      icon: <Instagram size={20} />,
+      href: "https://www.instagram.com/hzaman.shohag",
+      label: "Instagram",
+    },
   ];
 
   return (
-    <footer className="relative bg-gradient-to-br from-[#0a0a0a] via-[#0f0f0f] to-[#141414] border-t border-white/10">
-      {/* Cyan Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(6,182,212,0.12),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(59,130,246,0.08),transparent_40%)]" />
+    <footer className="relative bg-gradient-to-br from-[#0a0a0a] via-[#0f0f0f] to-[#141414] border-t border-white/10 overflow-hidden">
+      {/* Ambient Glows */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(6,182,212,0.15),transparent_40%),radial-gradient(circle_at_80%_100%,rgba(59,130,246,0.1),transparent_40%)]" />
 
-      <div className="relative z-10 py-16 px-4">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
-          {/* Brand */}
-          <div>
+      {/* Grid Overlay */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+            `,
+            backgroundSize: "80px 80px",
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-4">
+        {/* Massive Brand Typography */}
+        <div className="text-center mb-12">
+          <Link href="#home" className="inline-block group">
+            <h1 className="text-[18vw] md:text-[14vw] lg:text-[12rem] font-bold text-white/[0.03] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-cyan-500/30 group-hover:to-blue-600/30 transition-all duration-700 leading-none tracking-tighter">
+              Hzaman.
+            </h1>
+          </Link>
+        </div>
+
+        {/* Info Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12">
+          {/* Bio & Socials (Takes 5 cols) */}
+          <div className="md:col-span-5">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg">
-                <Code className="text-white" size={24} />
+              <div className="p-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg shadow-lg shadow-cyan-500/20">
+                <Code className="text-white" size={20} />
               </div>
-              <span className="text-2xl font-bold text-white">Hzaman</span>
+              <span className="text-xl font-bold text-white">
+                Hzaman Shohag
+              </span>
             </div>
-
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <p className="text-slate-400 mb-8 leading-relaxed max-w-md">
               Passionate full-stack developer crafting scalable,
               high-performance web applications with modern technologies.
             </p>
-
-            <div className="space-y-3 text-gray-400 text-sm">
-              <div className="flex items-center gap-2">
-                <Mail size={16} className="text-cyan-400" />
-                john.doe@example.com
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone size={16} className="text-cyan-400" />
-                +1 (555) 123-4567
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin size={16} className="text-cyan-400" />
-                San Francisco, CA
-              </div>
+            <div className="flex items-center gap-3">
+              {socialLinks.map((social, index) => (
+                <motion.a
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  aria-label={social.label}
+                  whileHover={{ scale: 1.1, y: -4 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-11 h-11 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-500 hover:text-white hover:border-transparent transition-all duration-300"
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-6">
+          {/* Quick Links (Takes 3 cols) */}
+          <div className="md:col-span-3">
+            <h4 className="text-sm font-semibold text-white uppercase tracking-[0.2em] mb-6">
               Quick Links
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition"
+                    className="group flex items-center gap-2 text-slate-400 hover:text-white transition-colors duration-300 w-fit"
                   >
-                    <ChevronRight size={14} className="text-cyan-400" />
+                    <ChevronRight
+                      size={16}
+                      className="text-cyan-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                    />
                     {link.name}
                   </Link>
                 </li>
@@ -122,77 +166,74 @@ const FooterSection = () => {
             </ul>
           </div>
 
-          {/* CTA */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-6">
-              Let’s Work Together
+          {/* Contact Info (Takes 4 cols) */}
+          <div className="md:col-span-4">
+            <h4 className="text-sm font-semibold text-white uppercase tracking-[0.2em] mb-6">
+              Get In Touch
             </h4>
-            <p className="text-gray-400 mb-6">
-              Have an idea or project in mind? Let’s create something impactful.
-            </p>
-
-            <Link
-              href="#contact"
-              className="inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium hover:from-cyan-600 hover:to-blue-600 transition"
-            >
-              Contact Me
-            </Link>
+            <div className="space-y-5">
+              <a
+                href="mailto:hzaman.live@gmail.com"
+                className="group flex items-center gap-4 text-slate-400 hover:text-white transition-colors"
+              >
+                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 group-hover:bg-cyan-500/10 group-hover:border-cyan-500/30 transition-colors">
+                  <Mail size={16} className="text-cyan-400" />
+                </div>
+                <span className="text-sm md:text-base">
+                  hzaman.live@gmail.com
+                </span>
+              </a>
+              <a
+                href="tel:+8801312116844"
+                className="group flex items-center gap-4 text-slate-400 hover:text-white transition-colors"
+              >
+                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 group-hover:bg-cyan-500/10 group-hover:border-cyan-500/30 transition-colors">
+                  <Phone size={16} className="text-cyan-400" />
+                </div>
+                <span className="text-sm md:text-base">+880 1312-116844</span>
+              </a>
+              <div className="group flex items-center gap-4 text-slate-400">
+                <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 group-hover:bg-cyan-500/10 group-hover:border-cyan-500/30 transition-colors">
+                  <MapPin size={16} className="text-cyan-400" />
+                </div>
+                <span className="text-sm md:text-base">khulna, Bangladesh</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="py-6 px-4 md:px-8 lg:px-12 ">
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              className="flex flex-col items-center justify-center gap-3 text-center"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <motion.div
-                className="flex flex-wrap items-center justify-center gap-2 text-gray-400 text-sm"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                <span>© {currentYear} All rights reserved.</span>
+        {/* Bottom Bar */}
+        <div className="py-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-slate-500 text-sm order-2 md:order-1">
+            © {currentYear} Hzaman. All rights reserved.
+          </p>
 
-                <motion.div
-                  className="flex items-center gap-1"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.5, type: "spring" }}
-                >
-                  <span>Developed with</span>
-                  <Heart
-                    size={14}
-                    className="text-red-500 fill-current animate-pulse"
-                  />
-                  <span>by</span>
-                  <a
-                    href="https://www.linkedin.com/in/hzaman-shohag/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 hover:opacity-80 transition-opacity"
-                  >
-                    Hzaman
-                  </a>
-                </motion.div>
-              </motion.div>
-            </motion.div>
+          <div className="flex items-center gap-1.5 text-slate-500 text-sm order-1 md:order-2">
+            <span>Designed with</span>
+            <Heart
+              size={14}
+              className="text-red-500 fill-current animate-pulse"
+            />
+            <span>by</span>
+            <a
+              href="https://www.linkedin.com/in/hzaman-shohag/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 hover:opacity-80 transition-opacity"
+            >
+              Hzaman
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Scroll Top */}
+      {/* Scroll to Top Button with Progress Ring */}
       <AnimatePresence>
         {showScrollTop && (
           <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
+            initial={{ opacity: 0, scale: 0, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0, y: 20 }}
             className="fixed bottom-8 right-8 z-50"
           >
             <div className="relative w-16 h-16">
@@ -210,13 +251,12 @@ const FooterSection = () => {
                   strokeWidth="4"
                   fill="transparent"
                 />
-
                 {/* Progress Circle */}
                 <motion.circle
                   cx="30"
                   cy="30"
                   r={radius}
-                  stroke="url(#gradient)"
+                  stroke="url(#footerGradient)"
                   strokeWidth="4"
                   fill="transparent"
                   strokeDasharray={circumference}
@@ -224,11 +264,10 @@ const FooterSection = () => {
                   strokeLinecap="round"
                   transition={{ duration: 0.2 }}
                 />
-
                 {/* Gradient Definition */}
                 <defs>
                   <linearGradient
-                    id="gradient"
+                    id="footerGradient"
                     x1="0%"
                     y1="0%"
                     x2="100%"
@@ -245,15 +284,10 @@ const FooterSection = () => {
                 onClick={scrollToTop}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="
-                absolute inset-2
-                flex items-center justify-center
-                bg-gradient-to-r from-cyan-500 to-blue-500
-                rounded-full text-white
-                shadow-lg
-              "
+                aria-label="Scroll to top"
+                className="absolute inset-2 flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full text-white shadow-lg shadow-cyan-500/30"
               >
-                <ArrowUp size={18} />
+                <ArrowUp size={20} />
               </motion.button>
             </div>
           </motion.div>

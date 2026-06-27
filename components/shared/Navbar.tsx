@@ -56,7 +56,7 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16">
             {/* LOGO */}
             <Link
-              href="#home"
+              href="/#home"
               className="flex items-center gap-2"
               onClick={() => setIsOpen(false)}
             >
@@ -89,7 +89,7 @@ const Navbar = () => {
             <div className="hidden lg:block">
               <Link href="#contact">
                 <Button className="rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-6">
-                  Let's Talk
+                  Let&apos;s Talk
                 </Button>
               </Link>
             </div>
@@ -161,7 +161,7 @@ const Navbar = () => {
               <div className="mt-auto pt-8">
                 <Link href="#contact" onClick={() => setIsOpen(false)}>
                   <Button className="w-full rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white">
-                    Let's Talk
+                    Let&apos;s Talk
                   </Button>
                 </Link>
               </div>

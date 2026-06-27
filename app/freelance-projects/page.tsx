@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -8,18 +8,17 @@ import {
   ExternalLink,
   Github,
   Briefcase,
-  Globe,
-  HeartPulse,
   ShoppingCart,
   LayoutDashboard,
   Tag,
-  DollarSign,
   Clock,
   Users,
   Calendar,
   TrendingUp,
   ArrowRight,
+  FolderKanban,
 } from "lucide-react";
+
 import {
   Pagination,
   PaginationContent,
@@ -30,20 +29,22 @@ import {
 } from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import Loader from "@/components/shared/Loader";
+import project1Image from "@/public/img/project/dotmart.png";
+
+type ProjectCategory = "ecommerce" | "portfolio" | "saas" | "other";
 
 interface FreelanceProject {
   id: string;
   title: string;
   client: string;
-  category: "ecommerce" | "healthcare" | "saas" | "marketing" | "other";
+  category: ProjectCategory;
   description: string;
   longDescription: string;
-  image: string;
+  image: StaticImageData;
   technologies: string[];
-  budget: string;
   duration: string;
   teamSize: number;
   completedDate: string;
@@ -62,9 +63,8 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "Advanced e-commerce system with analytics and performance optimization.",
     longDescription:
       "Built with Next.js and Node.js, this platform supports real-time inventory, secure payments, admin dashboards, and AI-driven recommendations for a global fashion retailer.",
-    image: "https://picsum.photos/seed/ecommerce-freelance/800/500.jpg",
+    image: project1Image,
     technologies: ["Next.js", "Node.js", "MongoDB", "Stripe", "Redux"],
-    budget: "$20,000",
     duration: "4 Months",
     teamSize: 6,
     completedDate: "2023-11-15",
@@ -76,13 +76,12 @@ const FREELANCE_DATA: FreelanceProject[] = [
     id: "2",
     title: "HealthTech Telemedicine Platform",
     client: "MediCare Solutions",
-    category: "healthcare",
+    category: "portfolio",
     description: "Telemedicine system with secure video consultations and EMR.",
     longDescription:
       "Full-stack telemedicine application with HIPAA compliance, appointment booking, secure EMR management, and real-time WebRTC video calling for doctors and patients.",
-    image: "https://picsum.photos/seed/healthtech-freelance/800/500.jpg",
+    image: project1Image,
     technologies: ["React", "Node.js", "PostgreSQL", "AWS", "WebRTC"],
-    budget: "$30,000",
     duration: "6 Months",
     teamSize: 8,
     completedDate: "2023-09-20",
@@ -103,9 +102,8 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "Enterprise HR platform with payroll, leave, and performance modules.",
     longDescription:
       "A complete HR solution covering employee onboarding, leave management, payroll processing, and performance review workflows for mid-to-large enterprises.",
-    image: "https://picsum.photos/seed/hr-freelance/800/500.jpg",
+    image: project1Image,
     technologies: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Stripe"],
-    budget: "$25,000",
     duration: "5 Months",
     teamSize: 5,
     completedDate: "2024-01-10",
@@ -121,12 +119,12 @@ const FREELANCE_DATA: FreelanceProject[] = [
     id: "4",
     title: "Digital Marketing Analytics Dashboard",
     client: "GrowthMetrics Agency",
-    category: "marketing",
+    category: "saas",
     description:
       "Real-time marketing dashboard with campaign tracking and ROI analysis.",
     longDescription:
       "Built a data-driven analytics platform that aggregates data from Google Ads, Facebook, and organic SEO to give actionable insights and automated reporting for marketing teams.",
-    image: "https://picsum.photos/seed/marketing-freelance/800/500.jpg",
+    image: project1Image,
     technologies: [
       "React",
       "Node.js",
@@ -134,7 +132,6 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "Google Analytics API",
       "Recharts",
     ],
-    budget: "$15,000",
     duration: "3 Months",
     teamSize: 4,
     completedDate: "2023-08-05",
@@ -155,7 +152,7 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "Food ordering system with real-time tracking and driver dispatch.",
     longDescription:
       "Full-featured food delivery platform with restaurant onboarding, real-time GPS order tracking, rider dispatch management, and customer loyalty rewards.",
-    image: "https://picsum.photos/seed/food-freelance/800/500.jpg",
+    image: project1Image,
     technologies: [
       "React Native",
       "Node.js",
@@ -163,7 +160,6 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "Google Maps API",
       "Socket.io",
     ],
-    budget: "$18,000",
     duration: "4 Months",
     teamSize: 6,
     completedDate: "2023-12-01",
@@ -184,9 +180,8 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "OpenAI-powered platform for marketers to generate content at scale.",
     longDescription:
       "A subscription-based SaaS app that uses GPT-4 to generate blog posts, social captions, ad copy, and SEO meta tags. Includes a template library, team workspace, and usage analytics.",
-    image: "https://picsum.photos/seed/ai-freelance/800/500.jpg",
+    image: project1Image,
     technologies: ["Next.js", "OpenAI API", "Prisma", "Stripe", "Tailwind"],
-    budget: "$22,000",
     duration: "3.5 Months",
     teamSize: 4,
     completedDate: "2024-02-20",
@@ -207,9 +202,8 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "Property marketplace with advanced search, maps, and agent CRM.",
     longDescription:
       "A modern real estate platform with geolocation-based property search, mortgage calculators, agent dashboards, and integrated CRM for lead management.",
-    image: "https://picsum.photos/seed/realestate-freelance/800/500.jpg",
+    image: project1Image,
     technologies: ["Next.js", "Node.js", "PostgreSQL", "Mapbox", "Cloudinary"],
-    budget: "$16,000",
     duration: "4 Months",
     teamSize: 5,
     completedDate: "2023-07-14",
@@ -230,9 +224,8 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "E-learning platform with video courses, quizzes, and certificates.",
     longDescription:
       "A full-featured LMS with instructor course creation, student progress tracking, live quiz modules, automatic certificate generation, and Stripe subscription billing.",
-    image: "https://picsum.photos/seed/lms-freelance/800/500.jpg",
+    image: project1Image,
     technologies: ["Next.js", "MongoDB", "Cloudinary", "Stripe", "Socket.io"],
-    budget: "$28,000",
     duration: "6 Months",
     teamSize: 7,
     completedDate: "2024-03-10",
@@ -248,12 +241,12 @@ const FREELANCE_DATA: FreelanceProject[] = [
     id: "9",
     title: "Social Media Growth Campaign",
     client: "BrandBoost Agency",
-    category: "marketing",
+    category: "saas",
     description:
       "360° social media strategy with content calendars and ad creatives.",
     longDescription:
       "Managed a full-scale social media growth campaign across Facebook, Instagram, and LinkedIn — including content strategy, paid advertising, influencer outreach, and monthly performance reporting.",
-    image: "https://picsum.photos/seed/social-freelance/800/500.jpg",
+    image: project1Image,
     technologies: [
       "Meta Ads",
       "Google Ads",
@@ -261,7 +254,6 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "Buffer",
       "Google Analytics",
     ],
-    budget: "$8,000",
     duration: "2 Months",
     teamSize: 3,
     completedDate: "2023-06-30",
@@ -273,130 +265,56 @@ const FREELANCE_DATA: FreelanceProject[] = [
       "$0.12 cost per click",
     ],
   },
-  {
-    id: "10",
-    title: "Hospital Management System",
-    client: "CityMed Hospital",
-    category: "healthcare",
-    description:
-      "Integrated hospital platform for patient, billing, and inventory management.",
-    longDescription:
-      "Enterprise-grade hospital management software with patient registration, OPD/IPD management, pharmacy inventory, billing, and reporting dashboards for department heads.",
-    image: "https://picsum.photos/seed/hospital-freelance/800/500.jpg",
-    technologies: ["React", "Node.js", "MySQL", "TypeScript", "Chart.js"],
-    budget: "$35,000",
-    duration: "7 Months",
-    teamSize: 9,
-    completedDate: "2024-04-01",
-    liveUrl: "#",
-    githubUrl: "#",
-    achievements: [
-      "200+ daily patients",
-      "50% billing errors reduced",
-      "Paperless workflow",
-    ],
-  },
-  {
-    id: "11",
-    title: "Crypto Portfolio Tracker",
-    client: "CoinWatch Pro",
-    category: "other",
-    description:
-      "Live crypto dashboard with portfolio analytics and price alerts.",
-    longDescription:
-      "A real-time cryptocurrency tracking dashboard that aggregates data from multiple exchanges, provides portfolio P&L analytics, custom price alert notifications, and market trend visualizations.",
-    image: "https://picsum.photos/seed/crypto-freelance/800/500.jpg",
-    technologies: [
-      "React",
-      "TypeScript",
-      "CoinGecko API",
-      "Recharts",
-      "Firebase",
-    ],
-    budget: "$12,000",
-    duration: "2.5 Months",
-    teamSize: 3,
-    completedDate: "2023-05-18",
-    liveUrl: "#",
-    githubUrl: "#",
-    achievements: [
-      "8K+ registered users",
-      "15+ exchanges supported",
-      "Real-time alerts",
-    ],
-  },
-  {
-    id: "12",
-    title: "B2B SaaS Invoicing Tool",
-    client: "InvoiceFlow Inc.",
-    category: "saas",
-    description:
-      "Automated invoicing, payments, and financial reporting for SMEs.",
-    longDescription:
-      "A clean, intuitive invoicing SaaS for small and medium businesses with recurring billing, multi-currency support, automated payment reminders, and detailed financial reports.",
-    image: "https://picsum.photos/seed/invoice-freelance/800/500.jpg",
-    technologies: ["Next.js", "Prisma", "PostgreSQL", "Stripe", "Resend"],
-    budget: "$14,000",
-    duration: "3 Months",
-    teamSize: 4,
-    completedDate: "2024-01-28",
-    liveUrl: "#",
-    githubUrl: "#",
-    achievements: [
-      "1.2K active businesses",
-      "$2M+ invoiced",
-      "98% payment success rate",
-    ],
-  },
 ];
+
+const categories = [
+  { id: "all", name: "All", icon: <Briefcase size={15} /> },
+  { id: "ecommerce", name: "E-Commerce", icon: <ShoppingCart size={15} /> },
+  { id: "portfolio", name: "Portfolio Website", icon: <FolderKanban size={15} /> },
+  { id: "saas", name: "SaaS", icon: <LayoutDashboard size={15} /> },
+  { id: "other", name: "Other", icon: <Tag size={15} /> },
+] as const;
 
 export default function FreelanceProjectsPage() {
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<FreelanceProject[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] =
+    useState<(typeof categories)[number]["id"]>("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProject, setSelectedProject] =
     useState<FreelanceProject | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const PROJECTS_PER_PAGE = 9;
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        setProjects(FREELANCE_DATA);
-      } catch (error) {
-        console.error("Failed to load projects", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+    const timer = setTimeout(() => {
+      setProjects(FREELANCE_DATA);
+      setLoading(false);
+    }, 700);
+
+    return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory, searchTerm]);
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      const matchCategory =
+        selectedCategory === "all" || project.category === selectedCategory;
+      const q = searchTerm.trim().toLowerCase();
 
-  const categories = [
-    { id: "all", name: "All", icon: <Briefcase size={15} /> },
-    { id: "ecommerce", name: "E-Commerce", icon: <ShoppingCart size={15} /> },
-    { id: "healthcare", name: "Healthcare", icon: <HeartPulse size={15} /> },
-    { id: "saas", name: "SaaS", icon: <LayoutDashboard size={15} /> },
-    { id: "marketing", name: "Marketing", icon: <TrendingUp size={15} /> },
-    { id: "other", name: "Other", icon: <Tag size={15} /> },
-  ];
+      if (!q) return matchCategory;
 
-  const filteredProjects = projects.filter((project) => {
-    const matchCategory =
-      selectedCategory === "all" || project.category === selectedCategory;
-    const matchSearch = project.title
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
-    return matchCategory && matchSearch;
-  });
+      const matchSearch =
+        project.title.toLowerCase().includes(q) ||
+        project.client.toLowerCase().includes(q) ||
+        project.technologies.some((t) => t.toLowerCase().includes(q));
+
+      return matchCategory && matchSearch;
+    });
+  }, [projects, selectedCategory, searchTerm]);
+
+  const PROJECTS_PER_PAGE = 9;
 
   const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
+
   const paginatedProjects = filteredProjects.slice(
     (currentPage - 1) * PROJECTS_PER_PAGE,
     currentPage * PROJECTS_PER_PAGE,
@@ -406,11 +324,9 @@ export default function FreelanceProjectsPage() {
 
   return (
     <section className="relative min-h-screen py-28 px-4 bg-gradient-to-br from-[#0a0a0a] via-[#0f0f0f] to-[#141414]">
-      {/* Cyan Glow Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(6,182,212,0.15),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(59,130,246,0.12),transparent_40%)]" />
 
-      {/* Grid Overlay */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
@@ -424,22 +340,16 @@ export default function FreelanceProjectsPage() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* ================= HERO ================= */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.55 }}
         >
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-medium mb-6"
-          >
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-medium mb-6">
             <Briefcase size={14} />
             Client Work
-          </motion.span>
+          </span>
 
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-5 leading-tight">
             My Freelance{" "}
@@ -451,159 +361,160 @@ export default function FreelanceProjectsPage() {
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-6" />
 
           <p className="text-slate-400 max-w-2xl mx-auto text-lg">
-            Selected freelance projects delivered to global clients — focused on
-            performance, scalability, and measurable business impact.
+            Projects I&apos;ve developed while learning and growing as a
+            full-stack developer, with a focus on responsive, user-friendly web
+            applications.
           </p>
         </motion.div>
 
-        {/* ================= FILTER BAR ================= */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-14"
-        >
-          {/* Tabs */}
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-14">
           <div className="flex flex-wrap gap-3 justify-center lg:justify-start w-full">
-            {categories.map((category, index) => {
+            {categories.map((category) => {
               const isActive = selectedCategory === category.id;
               return (
-                <motion.button
+                <button
                   key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05, ease: "easeOut" }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`
-                    relative flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium
-                    transition-all duration-300 whitespace-nowrap backdrop-blur-xl border border-white/10
-                    ${
-                      isActive
-                        ? "bg-gradient-to-r from-cyan-500/90 to-blue-600/90 text-white scale-[1.03]"
-                        : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
-                    }
-                  `}
+                  onClick={() => {
+                    setSelectedCategory(category.id);
+                    setCurrentPage(1);
+                  }}
+                  className={`relative flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap backdrop-blur-xl border border-white/10 ${
+                    isActive
+                      ? "bg-gradient-to-r from-cyan-500/90 to-blue-600/90 text-white scale-[1.03]"
+                      : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+                  }`}
                 >
                   {category.icon}
                   {category.name}
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeFreelanceTab"
-                      className="absolute inset-0 rounded-full bg-white/10 blur-xl -z-10"
-                    />
-                  )}
-                </motion.button>
+                </button>
               );
             })}
           </div>
 
-          {/* Search */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative w-full sm:w-80"
-          >
+          <div className="relative w-full sm:w-80">
             <Search
               size={18}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
             />
             <Input
-              placeholder="Search projects..."
-              className="pl-10 bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all duration-300 rounded-xl"
+              placeholder="Search title, client, tech..."
+              className="pl-10 bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 rounded-xl"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1);
+              }}
             />
-          </motion.div>
-        </motion.div>
-
-        {/* ================= PROJECTS GRID ================= */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {paginatedProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.06, ease: "easeOut" }}
-              whileHover={{ y: -8 }}
-              className="bg-white/[0.04] border border-white/10 hover:border-cyan-400/40 rounded-2xl overflow-hidden group transition-all duration-300 cursor-pointer"
-              onClick={() => setSelectedProject(project)}
-            >
-              {/* Image */}
-              <div className="relative h-48 overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-
-                {/* Budget badge on image */}
-                <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur border border-white/10 text-cyan-400 text-xs font-semibold">
-                  <DollarSign size={11} />
-                  {project.budget}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-5">
-                <p className="text-cyan-400 text-xs font-medium uppercase tracking-wider mb-1">
-                  {project.client}
-                </p>
-                <h3 className="text-white font-bold text-lg mb-2 group-hover:text-cyan-400 transition-colors duration-300">
-                  {project.title}
-                </h3>
-                <p className="text-slate-400 text-sm mb-4 line-clamp-2">
-                  {project.description}
-                </p>
-
-                {/* Meta row */}
-                <div className="flex items-center gap-4 text-slate-500 text-xs mb-4">
-                  <span className="flex items-center gap-1">
-                    <Clock size={12} className="text-cyan-400" />
-                    {project.duration}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Users size={12} className="text-cyan-400" />
-                    {project.teamSize} Members
-                  </span>
-                </div>
-
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {project.technologies.slice(0, 3).map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-300 text-xs"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <span className="px-2.5 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs">
-                      +{project.technologies.length - 3}
-                    </span>
-                  )}
-                </div>
-
-                <Button
-                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedProject(project);
-                  }}
-                >
-                  View Details
-                  <ArrowRight size={16} className="ml-2" />
-                </Button>
-              </div>
-            </motion.div>
-          ))}
+          </div>
         </div>
 
-        {/* ================= PAGINATION ================= */}
+        {paginatedProjects.length === 0 ? (
+          <div className="text-center py-20 border border-white/10 bg-white/[0.03] rounded-2xl">
+            <p className="text-slate-300 text-lg font-medium mb-2">
+              No projects found
+            </p>
+            <p className="text-slate-500 text-sm">
+              Try another category or search keyword.
+            </p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 26 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ y: -6 }}
+                className="bg-white/[0.04] border border-white/10 hover:border-cyan-400/40 rounded-2xl overflow-hidden group transition-all duration-300 cursor-pointer"
+                onClick={() => setSelectedProject(project)}
+              >
+                <div className="relative h-48 overflow-hidden">
+                  {/* Thumbnail */}
+                  <div className="relative h-64 overflow-hidden rounded-xl group">
+                    {/* Image layer */}
+                    <div
+                      className="
+                                                    absolute
+                                                    top-0
+                                                    left-0
+                                                    w-full
+                                                    transition-transform
+                                                    duration-[8000ms]
+                                                    ease-linear
+                                                    group-hover:-translate-y-[calc(100%-16rem)]
+                                                  "
+                    >
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        width={1920}
+                        height={4933}
+                        className="w-full h-auto"
+                      />
+                    </div>
+
+                    {/* Category badge */}
+                    <span className="absolute top-3 right-3 z-20 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-cyan-400 backdrop-blur">
+                      {project.category}
+                    </span>
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                </div>
+
+                <div className="p-5">
+                  <p className="text-cyan-400 text-xs font-medium uppercase tracking-wider mb-1">
+                    {project.client}
+                  </p>
+                  <h3 className="text-white font-bold text-lg mb-2 group-hover:text-cyan-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-slate-400 text-sm mb-4 line-clamp-2">
+                    {project.description}
+                  </p>
+
+                  <div className="flex items-center gap-4 text-slate-500 text-xs mb-4">
+                    <span className="flex items-center gap-1">
+                      <Clock size={12} className="text-cyan-400" />
+                      {project.duration}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Users size={12} className="text-cyan-400" />
+                      {project.teamSize} Members
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.technologies.slice(0, 3).map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-slate-300 text-xs"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <span className="px-2.5 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs">
+                        +{project.technologies.length - 3}
+                      </span>
+                    )}
+                  </div>
+
+                  <Button
+                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProject(project);
+                    }}
+                  >
+                    View Details <ArrowRight size={16} className="ml-2" />
+                  </Button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+
         {totalPages > 1 && (
           <div className="mt-16 flex justify-center">
             <Pagination>
@@ -613,21 +524,23 @@ export default function FreelanceProjectsPage() {
                     onClick={() =>
                       setCurrentPage((prev) => Math.max(prev - 1, 1))
                     }
-                    className={`cursor-pointer bg-white/5 border border-white/10 text-slate-300 hover:bg-cyan-500/20 hover:text-white transition-all duration-300 backdrop-blur-xl ${currentPage === 1 ? "opacity-40 pointer-events-none" : ""}`}
+                    className={`cursor-pointer bg-white/5 border border-white/10 text-slate-300 hover:bg-cyan-500/20 hover:text-white ${
+                      currentPage === 1 ? "opacity-40 pointer-events-none" : ""
+                    }`}
                   />
                 </PaginationItem>
 
-                {[...Array(totalPages)].map((_, index) => {
-                  const page = index + 1;
+                {[...Array(totalPages)].map((_, i) => {
+                  const page = i + 1;
                   const isActive = page === currentPage;
                   return (
                     <PaginationItem key={page}>
                       <PaginationLink
                         onClick={() => setCurrentPage(page)}
                         isActive={isActive}
-                        className={`cursor-pointer rounded-lg border transition-all duration-300 backdrop-blur-xl ${
+                        className={`cursor-pointer rounded-lg border transition-all duration-300 ${
                           isActive
-                            ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-transparent shadow-lg shadow-cyan-500/20 scale-105"
+                            ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-transparent"
                             : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10 hover:text-white"
                         }`}
                       >
@@ -642,7 +555,11 @@ export default function FreelanceProjectsPage() {
                     onClick={() =>
                       setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                     }
-                    className={`cursor-pointer bg-white/5 border border-white/10 text-slate-300 hover:bg-cyan-500/20 hover:text-white transition-all duration-300 backdrop-blur-xl ${currentPage === totalPages ? "opacity-40 pointer-events-none" : ""}`}
+                    className={`cursor-pointer bg-white/5 border border-white/10 text-slate-300 hover:bg-cyan-500/20 hover:text-white ${
+                      currentPage === totalPages
+                        ? "opacity-40 pointer-events-none"
+                        : ""
+                    }`}
                   />
                 </PaginationItem>
               </PaginationContent>
@@ -650,45 +567,51 @@ export default function FreelanceProjectsPage() {
           </div>
         )}
       </div>
-
-      {/* ================= MODAL ================= */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
-            className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50"
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedProject(null)}
           >
             <motion.div
-              className="relative bg-[#0f0f0f] rounded-2xl w-full max-w-2xl overflow-hidden border border-white/10"
-              initial={{ scale: 0.85, opacity: 0, y: 20 }}
+              className="group relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-[#0f0f0f]"
+              initial={{ scale: 0.94, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.85, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              exit={{ scale: 0.94, opacity: 0, y: 20 }}
+              transition={{ type: "spring", damping: 24, stiffness: 260 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 z-50 p-2 bg-black/60 backdrop-blur rounded-full text-white hover:bg-red-500 transition"
+                className="absolute top-4 right-4 z-50 p-2 rounded-full bg-black/60 text-white hover:bg-red-500 transition"
               >
                 <X size={18} />
               </button>
 
-              {/* Image */}
-              <div className="relative h-52">
-                <Image
-                  src={selectedProject.image}
-                  alt={selectedProject.title}
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-black/30 to-transparent" />
+              {/* Image Header */}
+              <div className="relative h-56 overflow-hidden">
+                <div
+                  className="
+              absolute top-0 left-0 w-full
+              transition-transform duration-[8000ms] ease-linear
+              group-hover:-translate-y-[calc(100%-14rem)]
+            "
+                >
+                  <Image
+                    src={selectedProject.image}
+                    alt={selectedProject.title}
+                    width={1920}
+                    height={4933}
+                    className="w-full h-auto"
+                    priority
+                  />
+                </div>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-black/30 to-transparent" />
               </div>
 
-              {/* Content */}
               <div className="p-6">
                 <p className="text-cyan-400 text-sm font-medium mb-1">
                   {selectedProject.client}
@@ -700,14 +623,8 @@ export default function FreelanceProjectsPage() {
                   {selectedProject.longDescription}
                 </p>
 
-                {/* Stats */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
                   {[
-                    {
-                      icon: <DollarSign size={14} />,
-                      label: "Budget",
-                      value: selectedProject.budget,
-                    },
                     {
                       icon: <Clock size={14} />,
                       label: "Duration",
@@ -744,15 +661,14 @@ export default function FreelanceProjectsPage() {
                   ))}
                 </div>
 
-                {/* Achievements */}
                 <div className="mb-5">
                   <p className="text-slate-500 text-xs uppercase tracking-wider mb-2 font-medium">
                     Key Achievements
                   </p>
                   <div className="flex flex-col gap-1.5">
-                    {selectedProject.achievements.map((item, i) => (
+                    {selectedProject.achievements.map((item) => (
                       <div
-                        key={i}
+                        key={item}
                         className="flex items-center gap-2 text-slate-300 text-sm"
                       >
                         <TrendingUp
@@ -765,7 +681,6 @@ export default function FreelanceProjectsPage() {
                   </div>
                 </div>
 
-                {/* Tech Stack */}
                 <div className="mb-6">
                   <p className="text-slate-500 text-xs uppercase tracking-wider mb-2 font-medium">
                     Tech Stack
@@ -782,7 +697,6 @@ export default function FreelanceProjectsPage() {
                   </div>
                 </div>
 
-                {/* Actions */}
                 <div className="flex gap-3">
                   <Link
                     href={selectedProject.liveUrl}
@@ -801,7 +715,7 @@ export default function FreelanceProjectsPage() {
                   >
                     <Button
                       variant="outline"
-                      className="w-full border-white/20 text-slate-300 hover:bg-white/10 hover:text-white rounded-xl"
+                      className="w-full rounded-xl border-cyan-500/30 hover:bg-cyan-500/10 hover:text-cyan-300 bg-white/5 text-white transition"
                     >
                       <Github size={16} className="mr-2" />
                       Source Code

@@ -1,233 +1,216 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import {
   ExternalLink,
   Github,
-  Code,
-  Smartphone,
   Globe,
-  Palette,
-  Slice,
+  Monitor,
+  Server,
+  Layers,
+  ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
+
+import project1Image from "@/public/img/project/dotmart.png";
+import smartithubbd from "@/public/img/project/smartithubbd.com.png";
 
 interface Project {
   id: string;
   title: string;
   description: string;
-  image: string;
+  image: StaticImageData;
   technologies: string[];
-  category: string;
-  liveUrl: string;
-  githubUrl: string;
+  category: "frontend" | "backend" | "fullstack";
+  liveUrl?: string;
+  githubUrl: {
+    frontend?: string;
+    backend?: string;
+  };
 }
 
 const ProjectsSection = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-    const projects: Project[] = [
-      {
-        id: "1",
-        title: "Scalable E-Commerce Platform",
-        description:
-          "High-performance MERN e-commerce solution with secure Stripe payments, cart management, and admin dashboard. Supports multi-vendor architecture and real-time inventory tracking.",
-        category: "web",
-        image: "https://picsum.photos/seed/ecommerce/800/450.jpg",
-        technologies: ["React", "Node.js", "MongoDB", "Stripe", "Redux"],
-        liveUrl: "#",
-        githubUrl: "#",
+  const projects: Project[] = [
+    {
+      id: "1",
+      title: "Dot Mart E-Commerce",
+      description:
+        "A modern MERN e-commerce platform with authentication, payment integration, admin dashboard, and order management.",
+      category: "fullstack",
+      image: project1Image,
+      technologies: [
+        "Next.js",
+        "TypeScript",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Tailwind CSS",
+      ],
+      liveUrl: "https://dotmart.com",
+      githubUrl: {
+        frontend: "https://github.com/hzamanshohag/dot-mart-client",
+        backend: "https://github.com/hzamanshohag/dot-mart-server",
       },
-      {
-        id: "2",
-        title: "Task Management SaaS",
-        description:
-          "Real-time collaborative project management built with Next.js. Features Kanban boards, drag & drop, team workspaces, and Slack integration.",
-        category: "saas",
-        image: "https://picsum.photos/seed/taskapp/800/450.jpg",
-        technologies: ["Next.js", "TypeScript", "PostgreSQL", "Socket.io"],
-        liveUrl: "#",
-        githubUrl: "#",
+    },
+    {
+      id: "2",
+      title: "Portfolio Website",
+      description:
+        "Responsive developer portfolio built with Next.js, Tailwind CSS, and Framer Motion.",
+      category: "frontend",
+      image: smartithubbd,
+      technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
+      liveUrl: "https://portfolio.com",
+      githubUrl: {
+        frontend: "https://github.com/hzamanshohag/portfolio",
       },
-      {
-        id: "3",
-        title: "Telemedicine WebRTC App",
-        description:
-          "Real-time health consultation platform with video calling, appointment scheduling, and prescription management for doctors and patients.",
-        category: "web",
-        image: "https://picsum.photos/seed/health/800/450.jpg",
-        technologies: ["React", "WebRTC", "Node.js", "MongoDB", "Twilio"],
-        liveUrl: "#",
-        githubUrl: "#",
+    },
+    {
+      id: "3",
+      title: "REST API",
+      description:
+        "Secure REST API with JWT authentication, MongoDB, and Express.",
+      category: "backend",
+      image: project1Image,
+      technologies: ["Node.js", "Express.js", "MongoDB"],
+      githubUrl: {
+        backend: "https://github.com/hzamanshohag/rest-api",
       },
-      {
-        id: "4",
-        title: "SaaS Analytics Dashboard",
-        description:
-          "Professional data analytics dashboard with real-time charts, custom reporting, and role-based access control for business intelligence.",
-        category: "saas",
-        image: "https://picsum.photos/seed/dashboard/800/450.jpg",
-        technologies: [
-          "Next.js",
-          "TypeScript",
-          "Recharts",
-          "Prisma",
-          "Supabase",
-        ],
-        liveUrl: "#",
-        githubUrl: "#",
+    },
+    {
+      id: "4",
+      title: "PH University Management System",
+      description:
+        "A university management system with role-based authentication, student enrollment, course management, and admin dashboard.",
+      category: "fullstack",
+      image: project1Image,
+      technologies: [
+        "React",
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Mongoose",
+        "JWT",
+        "Redux Toolkit",
+      ],
+      liveUrl: "https://university-demo.vercel.app",
+      githubUrl: {
+        frontend: "https://github.com/username/university-client",
+        backend: "https://github.com/username/university-server",
       },
-      {
-        id: "5",
-        title: "Real-Time Chat Application",
-        description:
-          "WhatsApp-like messaging app with rooms, file sharing, read receipts, push notifications, and end-to-end encryption.",
-        category: "web",
-        image: "https://picsum.photos/seed/chat/800/450.jpg",
-        technologies: ["React", "Socket.io", "Node.js", "Redis", "MongoDB"],
-        liveUrl: "#",
-        githubUrl: "#",
+    },
+    {
+      id: "5",
+      title: "Restaurant Booking App",
+      description:
+        "Responsive restaurant reservation platform with online booking, menu browsing, authentication, and booking management.",
+      category: "frontend",
+      image: project1Image,
+      technologies: [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Shadcn UI",
+        "Framer Motion",
+      ],
+      liveUrl: "https://restaurant-demo.vercel.app",
+      githubUrl: {
+        frontend: "https://github.com/username/restaurant-booking",
       },
-      {
-        id: "6",
-        title: "Fitness Tracker Mobile App",
-        description:
-          "Cross-platform mobile app for workout logging, nutrition tracking, progress charts, and AI-powered exercise recommendations.",
-        category: "mobile",
-        image: "https://picsum.photos/seed/fitness/800/450.jpg",
-        technologies: ["React Native", "TypeScript", "Expo", "Firebase"],
-        liveUrl: "#",
-        githubUrl: "#",
+    },
+    {
+      id: "6",
+      title: "Authentication REST API",
+      description:
+        "Secure REST API implementing JWT authentication, password hashing, role-based authorization, and user management.",
+      category: "backend",
+      image: project1Image,
+      technologies: [
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Mongoose",
+        "JWT",
+        "bcrypt",
+        "Zod",
+      ],
+      githubUrl: {
+        backend: "https://github.com/username/auth-api",
       },
-      {
-        id: "7",
-        title: "Portfolio Design System",
-        description:
-          "Complete design system with reusable components, tokens, and guidelines built for developer portfolios and personal branding.",
-        category: "design",
-        image: "https://picsum.photos/seed/portfolio/800/450.jpg",
-        technologies: ["Figma", "Next.js", "Tailwind CSS", "Storybook"],
-        liveUrl: "#",
-        githubUrl: "#",
+    },
+    {
+      id: "7",
+      title: "Real Estate Platform",
+      description:
+        "Modern property listing platform with advanced search, property management, image gallery, and user authentication.",
+      category: "fullstack",
+      image: project1Image,
+      technologies: [
+        "Next.js",
+        "TypeScript",
+        "Node.js",
+        "MongoDB",
+        "Tailwind CSS",
+        "Cloudinary",
+      ],
+      liveUrl: "https://real-estate-demo.vercel.app",
+      githubUrl: {
+        frontend: "https://github.com/username/real-estate-client",
+        backend: "https://github.com/username/real-estate-server",
       },
-      {
-        id: "8",
-        title: "Food Delivery Platform",
-        description:
-          "Full-featured food ordering system with restaurant onboarding, real-time order tracking, and driver dispatch management.",
-        category: "web",
-        image: "https://picsum.photos/seed/food/800/450.jpg",
-        technologies: ["React", "Node.js", "MongoDB", "Google Maps API"],
-        liveUrl: "#",
-        githubUrl: "#",
+    },
+    {
+      id: "8",
+      title: "Weather Dashboard",
+      description:
+        "Interactive weather dashboard with location search, 7-day forecasts, responsive UI, and OpenWeather API integration.",
+      category: "frontend",
+      image: project1Image,
+      technologies: ["React", "TypeScript", "Tailwind CSS", "OpenWeather API"],
+      liveUrl: "https://weather-demo.vercel.app",
+      githubUrl: {
+        frontend: "https://github.com/username/weather-dashboard",
       },
-      {
-        id: "9",
-        title: "AI Content Generator SaaS",
-        description:
-          "OpenAI-powered content creation platform for marketers. Generates blog posts, social captions, ad copy, and SEO meta tags at scale.",
-        category: "saas",
-        image: "https://picsum.photos/seed/aigenerator/800/450.jpg",
-        technologies: ["Next.js", "OpenAI API", "Prisma", "Stripe", "Tailwind"],
-        liveUrl: "#",
-        githubUrl: "#",
+    },
+    {
+      id: "9",
+      title: "Blog REST API",
+      description:
+        "RESTful backend API for blog management featuring CRUD operations, JWT authentication, comments, categories, and role-based permissions.",
+      category: "backend",
+      image: project1Image,
+      technologies: [
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "Mongoose",
+        "JWT",
+        "Zod",
+      ],
+      githubUrl: {
+        backend: "https://github.com/username/blog-api",
       },
-      {
-        id: "10",
-        title: "Event Booking Mobile App",
-        description:
-          "Mobile ticketing platform for concerts and events with QR code tickets, seat selection, and payment processing.",
-        category: "mobile",
-        image: "https://picsum.photos/seed/events/800/450.jpg",
-        technologies: ["React Native", "Expo", "Stripe", "Firebase"],
-        liveUrl: "#",
-        githubUrl: "#",
-      },
-      {
-        id: "11",
-        title: "Blog CMS Platform",
-        description:
-          "Headless CMS with markdown editor, SEO optimization tools, scheduled publishing, and multi-author support.",
-        category: "web",
-        image: "https://picsum.photos/seed/blog/800/450.jpg",
-        technologies: ["Next.js", "Sanity.io", "TypeScript", "Tailwind"],
-        liveUrl: "#",
-        githubUrl: "#",
-      },
-      {
-        id: "12",
-        title: "Brand Identity Design",
-        description:
-          "Complete brand identity and UI kit for a fintech startup — logo, typography, color system, and component library.",
-        category: "design",
-        image: "https://picsum.photos/seed/brand/800/450.jpg",
-        technologies: ["Figma", "Adobe Illustrator", "Framer"],
-        liveUrl: "#",
-        githubUrl: "#",
-      },
-      {
-        id: "13",
-        title: "HR Management System",
-        description:
-          "Enterprise HR platform with employee onboarding, leave management, payroll processing, and performance review workflows.",
-        category: "saas",
-        image: "https://picsum.photos/seed/hr/800/450.jpg",
-        technologies: [
-          "React",
-          "Node.js",
-          "PostgreSQL",
-          "Prisma",
-          "TypeScript",
-        ],
-        liveUrl: "#",
-        githubUrl: "#",
-      },
-      {
-        id: "14",
-        title: "Crypto Portfolio Tracker",
-        description:
-          "Live cryptocurrency dashboard with portfolio analytics, price alerts, and market data from multiple exchanges.",
-        category: "web",
-        image: "https://picsum.photos/seed/crypto/800/450.jpg",
-        technologies: ["React", "TypeScript", "CoinGecko API", "Recharts"],
-        liveUrl: "#",
-        githubUrl: "#",
-      },
-      {
-        id: "15",
-        title: "Learning Management System",
-        description:
-          "E-learning platform with video courses, quizzes, certificates, progress tracking, and instructor dashboards.",
-        category: "saas",
-        image: "https://picsum.photos/seed/lms/800/450.jpg",
-        technologies: ["Next.js", "MongoDB", "Cloudinary", "Stripe"],
-        liveUrl: "#",
-        githubUrl: "#",
-      },
-    ];
+    },
+  ];
 
   const categories = [
     { id: "all", name: "All Projects", icon: <Globe size={18} /> },
-    { id: "web", name: "Web Applications", icon: <Code size={18} /> },
-    { id: "mobile", name: "Mobile Apps", icon: <Smartphone size={18} /> },
-    { id: "design", name: "UI / UX Design", icon: <Palette size={18} /> },
+    { id: "frontend", name: "Frontend", icon: <Monitor size={18} /> },
+    { id: "backend", name: "Backend", icon: <Server size={18} /> },
+    { id: "fullstack", name: "Full Stack", icon: <Layers size={18} /> },
   ];
 
-  useEffect(() => {
-    if (selectedCategory === "all") {
-      setFilteredProjects(projects);
-    } else {
-      setFilteredProjects(
-        projects.filter((project) => project.category === selectedCategory)
-      );
-    }
-  }, [selectedCategory]);
+  const filteredProjects =
+    selectedCategory === "all"
+      ? projects
+      : projects.filter((project) => project.category === selectedCategory);
 
   return (
     <section
@@ -273,9 +256,9 @@ const ProjectsSection = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full" />
 
           <p className="text-slate-400 mt-6 max-w-2xl mx-auto">
-            Scalable web applications and SaaS platforms built with MERN,
-            Next.js, and TypeScript — focused on performance and business
-            growth.
+            A showcase of my projects demonstrating modern web development,
+            clean code, and practical problem-solving with the MERN stack and
+            Next.js.
           </p>
         </motion.div>
 
@@ -299,31 +282,55 @@ const ProjectsSection = () => {
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.slice(0, 6).map((project) => (
-            <div
+          {filteredProjects.slice(0, 6).map((project, index) => (
+            <motion.div
               key={project.id}
-              className="bg-white/5 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 hover:border-cyan-400/40 transition group"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.06, ease: "easeOut" }}
+              className="group flex flex-col bg-white/5 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 hover:border-cyan-400/40 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.08)]"
             >
-              <div className="relative h-48">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition duration-500"
-                />
+              {/* Thumbnail */}
+              <div className="relative h-64 overflow-hidden group">
+                {/* Image */}
+                <div
+                  className="
+                                absolute
+                                top-0
+                                left-0
+                                w-full
+                                transition-transform
+                                duration-[8000ms]
+                                ease-linear
+                                group-hover:-translate-y-[calc(100%-16rem)]
+                              "
+                >
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    width={1920}
+                    height={4933}
+                    className="w-full h-auto"
+                  />
+                </div>
+
+                {/* Category Badge */}
+                <span className="absolute top-3 right-3 z-20 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-cyan-400 backdrop-blur">
+                  {project.category}
+                </span>
               </div>
 
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition">
+              {/* ── Card body ── */}
+              <div className="flex flex-col flex-1 p-6">
+                <h3 className="text-lg font-bold text-white mb-1.5 group-hover:text-cyan-400 transition-colors duration-200 leading-snug">
                   {project.title}
                 </h3>
-
-                <p className="text-slate-400 text-sm mb-4">
+                <p className="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-3">
                   {project.description}
                 </p>
 
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-1.5 mb-4">
+                {/* Tech tags */}
+                <div className="flex flex-wrap gap-1.5 mb-5">
                   {project.technologies.map((tech) => (
                     <span
                       key={tech}
@@ -334,35 +341,70 @@ const ProjectsSection = () => {
                   ))}
                 </div>
 
-                <div className="flex gap-3">
-                  <Button
-                    size="sm"
-                    className="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
-                  >
-                    <ExternalLink size={16} className="mr-2" />
-                    Live
-                  </Button>
+                {/* ── Action buttons pushed to bottom ── */}
+                <div className="mt-auto flex flex-wrap gap-2 pt-4 border-t border-white/[0.06]">
+                  {/* Live demo */}
+                  {project.liveUrl && (
+                    <Button
+                      asChild
+                      size="sm"
+                      className="rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:opacity-90 transition"
+                    >
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
+                        Live Demo
+                      </a>
+                    </Button>
+                  )}
 
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="
-        rounded-full 
-        border border-white/20 
-        text-slate-300 
-        bg-white/10 
-        hover:border-cyan-400 
-        hover:text-cyan-400 
-        hover:bg-cyan-400/10
-        transition-all duration-300
-      "
-                  >
-                    <Github size={16} className="mr-2" />
-                    Code
-                  </Button>
+                  {/* Frontend repo */}
+                  {project.githubUrl.frontend && (
+                    <Button
+                      asChild
+                      size="sm"
+                      variant="outline"
+                      className="rounded-xl border-cyan-500/30 hover:bg-cyan-500/10 hover:text-cyan-300 bg-white/5 text-white transition"
+                    >
+                      <a
+                        href={project.githubUrl.frontend}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Github className="mr-1.5 h-3.5 w-3.5" />
+                        {project.category === "fullstack"
+                          ? "Frontend"
+                          : "Source Code"}
+                      </a>
+                    </Button>
+                  )}
+
+                  {/* Backend repo */}
+                  {project.githubUrl.backend && (
+                    <Button
+                      asChild
+                      size="sm"
+                      variant="outline"
+                      className="rounded-xl border-cyan-500/30 hover:bg-cyan-500/10 hover:text-cyan-300 bg-white/5 text-white transition"
+                    >
+                      <a
+                        href={project.githubUrl.backend}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Github className="mr-1.5 h-3.5 w-3.5" />
+                        {project.category === "fullstack"
+                          ? "Backend"
+                          : "Source Code"}
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
@@ -372,9 +414,33 @@ const ProjectsSection = () => {
             <Link href="/projects">
               <Button
                 size="lg"
-                className="px-10 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full text-white shadow-lg"
+                className="
+      group
+      relative
+      overflow-hidden
+      rounded-full
+      bg-gradient-to-r
+      from-cyan-500
+      to-blue-600
+      px-10
+      py-6
+      text-white
+      shadow-lg
+      shadow-cyan-500/20
+      transition-all
+      duration-300
+      hover:scale-105
+      hover:shadow-cyan-500/40
+      hover:shadow-2xl
+      active:scale-95
+    "
               >
-                View All Projects
+                <span className="relative z-10 flex items-center gap-2">
+                  View All Projects
+                  <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+
+                <span className="absolute inset-0 -translate-x-full bg-white/20 transition-transform duration-700 group-hover:translate-x-full" />
               </Button>
             </Link>
           </div>

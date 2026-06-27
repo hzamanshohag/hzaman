@@ -9,7 +9,6 @@ import {
   Monitor,
   Camera,
   Award,
-  User,
   Tag,
   X,
   ExternalLink,
@@ -31,206 +30,24 @@ import Loader from "@/components/shared/Loader";
 
 interface YouTubeVideo {
   id: string;
-  title: string;
-  description: string;
-  category: "projects" | "ads" | "tutorials" | "testimonials" | "other";
-  thumbnail: string;
   videoId: string;
-  duration: string;
+  category: "projects" | "ads" | "tutorials" | "other";
 }
 
-// Moved data outside the component to simulate an external data source or just to keep component clean
 const VIDEO_DATA: YouTubeVideo[] = [
-  {
-    id: "1",
-    title: "E-Commerce Platform Showcase",
-    description:
-      "Modern MERN stack e-commerce demo with cart, auth & payments.",
-    category: "projects",
-    thumbnail: "https://picsum.photos/seed/ecommerce/1200/600.jpg",
-    videoId: "dQw4w9WgXcQ",
-    duration: "12:45",
-  },
-  {
-    id: "2",
-    title: "Telemedicine WebRTC App",
-    description: "Real-time health consultation system with video calling.",
-    category: "projects",
-    thumbnail: "https://picsum.photos/seed/health/800/450.jpg",
-    videoId: "jNQXAC9IVRw",
-    duration: "18:30",
-  },
-  {
-    id: "3",
-    title: "Full Stack MERN Tutorial",
-    description: "Build a complete application step by step from scratch.",
-    category: "tutorials",
-    thumbnail: "https://picsum.photos/seed/tutorial/800/450.jpg",
-    videoId: "fgTGADljAeg",
-    duration: "45:30",
-  },
-  {
-    id: "4",
-    title: "Next.js 14 App Router Deep Dive",
-    description:
-      "Master server components, layouts, and data fetching patterns.",
-    category: "tutorials",
-    thumbnail: "https://picsum.photos/seed/nextjs/800/450.jpg",
-    videoId: "wm5gMKuwSYk",
-    duration: "38:20",
-  },
-  {
-    id: "5",
-    title: "TypeScript Advanced Patterns",
-    description: "Generics, utility types, and advanced TypeScript techniques.",
-    category: "tutorials",
-    thumbnail: "https://picsum.photos/seed/typescript/800/450.jpg",
-    videoId: "BwuLxPH8IDs",
-    duration: "52:10",
-  },
-  {
-    id: "6",
-    title: "Real-Time Chat App with Socket.io",
-    description: "Build a WhatsApp-like chat app with rooms and notifications.",
-    category: "projects",
-    thumbnail: "https://picsum.photos/seed/chat/800/450.jpg",
-    videoId: "ZKEqqIO7n-k",
-    duration: "29:55",
-  },
-  {
-    id: "7",
-    title: "Redux Toolkit Crash Course",
-    description: "Modern state management with RTK Query and slices.",
-    category: "tutorials",
-    thumbnail: "https://picsum.photos/seed/redux/800/450.jpg",
-    videoId: "bbkBuqC1rU4",
-    duration: "33:40",
-  },
-  {
-    id: "8",
-    title: "SaaS Dashboard UI Build",
-    description: "Design and build a professional analytics dashboard.",
-    category: "projects",
-    thumbnail: "https://picsum.photos/seed/dashboard/800/450.jpg",
-    videoId: "1SgmJ5M3hgc",
-    duration: "41:15",
-  },
-  {
-    id: "9",
-    title: "Node.js REST API with JWT Auth",
-    description: "Secure REST API with refresh tokens and role-based access.",
-    category: "tutorials",
-    thumbnail: "https://picsum.photos/seed/nodejs/800/450.jpg",
-    videoId: "enopDiqsGgY",
-    duration: "47:22",
-  },
-  {
-    id: "10",
-    title: "Tailwind CSS Masterclass",
-    description: "Build stunning UIs faster with utility-first CSS.",
-    category: "tutorials",
-    thumbnail: "https://picsum.photos/seed/tailwind/800/450.jpg",
-    videoId: "pfaSUYaSgRo",
-    duration: "28:05",
-  },
-  {
-    id: "11",
-    title: "Portfolio Website Speedbuild",
-    description: "Build a jaw-dropping developer portfolio in under an hour.",
-    category: "projects",
-    thumbnail: "https://picsum.photos/seed/portfolio/800/450.jpg",
-    videoId: "r_hYR53r61M",
-    duration: "55:00",
-  },
-  {
-    id: "12",
-    title: "MongoDB Aggregation Pipeline",
-    description: "Advanced data querying, grouping, and reporting in MongoDB.",
-    category: "tutorials",
-    thumbnail: "https://picsum.photos/seed/mongodb/800/450.jpg",
-    videoId: "A3jvoE0jGdE",
-    duration: "36:48",
-  },
-  {
-    id: "13",
-    title: "CI/CD Pipeline with GitHub Actions",
-    description: "Automate testing, builds, and deployment for MERN apps.",
-    category: "other",
-    thumbnail: "https://picsum.photos/seed/cicd/800/450.jpg",
-    videoId: "scEDHsr3APg",
-    duration: "22:30",
-  },
-  {
-    id: "14",
-    title: "Docker for Full Stack Developers",
-    description: "Containerize your MERN app with Docker Compose.",
-    category: "testimonials",
-    thumbnail: "https://picsum.photos/seed/docker/800/450.jpg",
-    videoId: "3c-iBn73dDE",
-    duration: "44:17",
-  },
-  {
-    id: "15",
-    title: "SEO Strategy for Developers",
-    description: "Technical SEO, Core Web Vitals, and ranking your web apps.",
-    category: "testimonials",
-    thumbnail: "https://picsum.photos/seed/seo/800/450.jpg",
-    videoId: "JSm4aQl4w_U",
-    duration: "31:00",
-  },
-  {
-    id: "16",
-    title: "Framer Motion Animation Guide",
-    description: "Create buttery smooth React animations with Framer Motion.",
-    category: "tutorials",
-    thumbnail: "https://picsum.photos/seed/framer/800/450.jpg",
-    videoId: "2V1WK-3HQNk",
-    duration: "26:43",
-  },
-  {
-    id: "17",
-    title: "Social Media Marketing for Devs",
-    description:
-      "Grow your personal brand and attract clients on social media.",
-    category: "testimonials",
-    thumbnail: "https://picsum.photos/seed/social/800/450.jpg",
-    videoId: "ysEN5RaKOlA",
-    duration: "19:55",
-  },
-  {
-    id: "18",
-    title: "Task Management App — Full Build",
-    description:
-      "Trello-like kanban board with drag & drop and real-time sync.",
-    category: "projects",
-    thumbnail: "https://picsum.photos/seed/kanban/800/450.jpg",
-    videoId: "W5fjdHSMoMk",
-    duration: "1:02:10",
-  },
-  {
-    id: "19",
-    title: "Prisma ORM with Next.js",
-    description: "Type-safe database access with Prisma and PostgreSQL.",
-    category: "tutorials",
-    thumbnail: "https://picsum.photos/seed/prisma/800/450.jpg",
-    videoId: "RebA5J-rlwg",
-    duration: "39:28",
-  },
-  {
-    id: "20",
-    title: "Conversion Rate Optimization",
-    description:
-      "Data-driven techniques to turn visitors into paying customers.",
-    category: "testimonials",
-    thumbnail: "https://picsum.photos/seed/cro/800/450.jpg",
-    videoId: "ZXsQAXx_ao0",
-    duration: "24:15",
-  },
+  { id: "1", videoId: "Yb1zuZ-9AB0", category: "projects" },
+  { id: "2", videoId: "fZi-ZkIo3D4", category: "other" },
+  { id: "3", videoId: "LaH9F28AfH4", category: "projects" },
+  { id: "4", videoId: "g31UN07ySXA", category: "other" },
+  { id: "5", videoId: "_8Ml_jV7-YQ", category: "projects" },
+  { id: "6", videoId: "et78ZBRhm-E", category: "other" },
 ];
 
 export default function VideosPage() {
-  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
+  const [videoTitles, setVideoTitles] = useState<Record<string, string>>({});
+  const [thumbErrors, setThumbErrors] = useState<Record<string, boolean>>({});
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedVideo, setSelectedVideo] = useState<YouTubeVideo | null>(null);
@@ -238,32 +55,59 @@ export default function VideosPage() {
 
   const VIDEOS_PER_PAGE = 9;
 
-  // Simulate fetching data
+  const getThumbnail = (videoId: string, fallback = false) =>
+    `https://img.youtube.com/vi/${videoId}/${fallback ? "hqdefault" : "maxresdefault"}.jpg`;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Simulate network delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // "Successfully" load data
+        await new Promise((resolve) => setTimeout(resolve, 800));
         setVideos(VIDEO_DATA);
+
+        const titles: Record<string, string> = {};
+        await Promise.all(
+          VIDEO_DATA.map(async (video) => {
+            try {
+              const res = await fetch(
+                `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${video.videoId}&format=json`,
+              );
+              const data = await res.json();
+              titles[video.id] = data.title;
+            } catch {
+              titles[video.id] = "Untitled Video";
+            }
+          }),
+        );
+        setVideoTitles(titles);
       } catch (error) {
         console.error("Failed to load videos", error);
       } finally {
-        // Turn off loading regardless of success or failure
-        setLoading(false);
+        setInitialLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
+  const handleThumbError = (videoId: string) => {
+    setThumbErrors((prev) => ({ ...prev, [videoId]: true }));
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (term: string) => {
+    setSearchTerm(term);
+    setCurrentPage(1);
+  };
+
   const categories = [
     { id: "all", name: "All", icon: <Film size={16} /> },
     { id: "projects", name: "Projects", icon: <Monitor size={16} /> },
     { id: "ads", name: "Ads", icon: <Camera size={16} /> },
     { id: "tutorials", name: "Tutorials", icon: <Award size={16} /> },
-    { id: "testimonials", name: "Testimonials", icon: <User size={16} /> },
     { id: "other", name: "Other", icon: <Tag size={16} /> },
   ];
 
@@ -271,7 +115,7 @@ export default function VideosPage() {
     const matchCategory =
       selectedCategory === "all" || video.category === selectedCategory;
 
-    const matchSearch = video.title
+    const matchSearch = (videoTitles[video.id] || "")
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
@@ -285,7 +129,7 @@ export default function VideosPage() {
     currentPage * VIDEOS_PER_PAGE,
   );
 
-  if (loading) {
+  if (initialLoading) {
     return <Loader />;
   }
 
@@ -336,8 +180,9 @@ export default function VideosPage() {
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full mb-6" />
 
           <p className="text-slate-400 max-w-2xl mx-auto text-lg">
-            Scalable web apps, SaaS platforms, mobile applications, and design
-            systems — built with MERN, Next.js, and TypeScript.
+            Explore my latest projects through engaging video demos, feature
+            walkthroughs, and real-world development case studies built with
+            MERN, Next.js, and TypeScript.
           </p>
         </motion.div>
 
@@ -346,13 +191,7 @@ export default function VideosPage() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="
-    flex flex-col lg:flex-row
-    lg:items-center
-    lg:justify-between
-    gap-6
-    mb-14
-  "
+          className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-14"
         >
           {/* ================= Tabs ================= */}
           <div className="flex flex-wrap gap-3 justify-center lg:justify-start w-full">
@@ -362,27 +201,27 @@ export default function VideosPage() {
               return (
                 <motion.button
                   key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
+                  onClick={() => handleCategoryChange(category.id)}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05, ease: "easeOut" }}
                   whileTap={{ scale: 0.95 }}
                   className={`
-            relative
-            flex items-center gap-2
-            px-5 py-2
-            rounded-full
-            text-sm font-medium
-            transition-all duration-300
-            whitespace-nowrap
-            backdrop-blur-xl
-            border border-white/10
-            ${
-              isActive
-                ? "bg-gradient-to-r from-cyan-500/90 to-blue-600/90 text-white scale-[1.03]"
-                : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
-            }
-          `}
+                    relative
+                    flex items-center gap-2
+                    px-5 py-2
+                    rounded-full
+                    text-sm font-medium
+                    transition-all duration-300
+                    whitespace-nowrap
+                    backdrop-blur-xl
+                    border border-white/10
+                    ${
+                      isActive
+                        ? "bg-gradient-to-r from-cyan-500/90 to-blue-600/90 text-white scale-[1.03]"
+                        : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
+                    }
+                  `}
                 >
                   <span className="text-base leading-none">
                     {category.icon}
@@ -409,81 +248,82 @@ export default function VideosPage() {
           >
             <Search
               size={18}
-              className="
-    absolute left-3 top-1/2 -translate-y-1/2
-    text-slate-500
-    transition-all duration-300
-    group-focus-within:text-cyan-400
-    group-focus-within:drop-shadow-[0_0_6px_rgba(6,182,212,0.6)]
-    pointer-events-none
-  "
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none"
             />
-
             <Input
               placeholder="Search videos..."
-              className="
-        pl-10
-        bg-white/5
-        border border-white/10
-        text-white
-        placeholder:text-gray-500
-        focus:border-cyan-500
-        focus:ring-1
-        focus:ring-cyan-500
-        transition-all duration-300
-        rounded-xl
-      "
+              className="pl-10 bg-white/5 border border-white/10 text-white placeholder:text-gray-500 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all duration-300 rounded-xl"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
             />
           </motion.div>
         </motion.div>
-        {/* ================= VIDEO GRID ================= */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {paginatedVideos.map((video) => (
-            <motion.div
-              key={video.id}
-              whileHover={{ y: -8 }}
-              className="bg-white/[0.04] border border-white/10 rounded-2xl overflow-hidden"
-            >
-              <div className="relative aspect-video group cursor-pointer">
-                <Image
-                  src={video.thumbnail}
-                  alt={video.title}
-                  fill
-                  className="object-cover"
-                  suppressHydrationWarning
-                />
 
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+        {/* ================= VIDEO GRID ================= */}
+        {paginatedVideos.length === 0 ? (
+          <div className="text-center py-20">
+            <Video size={48} className="text-slate-600 mx-auto mb-4" />
+            <p className="text-slate-400 text-lg">No videos found</p>
+            <p className="text-slate-600 text-sm mt-2">
+              Try adjusting your search or filter
+            </p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {paginatedVideos.map((video, index) => (
+              <motion.div
+                key={video.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+                className="bg-white/[0.04] border border-white/10 rounded-2xl overflow-hidden"
+              >
+                <div className="relative aspect-video group cursor-pointer">
+                  <Image
+                    src={getThumbnail(video.videoId, thumbErrors[video.id])}
+                    alt={videoTitles[video.id] || "Video thumbnail"}
+                    fill
+                    className="object-cover"
+                    onError={() => handleThumbError(video.videoId)}
+                    unoptimized
+                    suppressHydrationWarning
+                  />
+
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                    <Button
+                      onClick={() => setSelectedVideo(video)}
+                      className="p-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-lg shadow-cyan-500/30"
+                    >
+                      <Play size={24} className="text-white" />
+                    </Button>
+                  </div>
+
+                  {/* Category Badge */}
+                  <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-black/70 text-[10px] uppercase tracking-wider text-slate-300 font-mono">
+                    {video.category}
+                  </div>
+                </div>
+
+                <div className="p-4">
+                  <h3 className="text-white font-semibold mb-3 line-clamp-2">
+                    {videoTitles[video.id]}
+                  </h3>
+
                   <Button
                     onClick={() => setSelectedVideo(video)}
-                    className="p-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"
+                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl"
                   >
-                    <Play size={24} className="text-white" />
+                    <Play size={16} className="mr-2" />
+                    Play Video
                   </Button>
                 </div>
-              </div>
-
-              <div className="p-4">
-                <h3 className="text-white font-semibold mb-2">{video.title}</h3>
-
-                <p className="text-gray-400 text-sm mb-3">
-                  {video.description}
-                </p>
-
-                <Button
-                  onClick={() => setSelectedVideo(video)}
-                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl"
-                >
-                  <Play size={16} className="mr-2" />
-                  Play Video
-                </Button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         {/* ================= PAGINATION ================= */}
         {totalPages > 1 && (
@@ -496,17 +336,9 @@ export default function VideosPage() {
                     onClick={() =>
                       setCurrentPage((prev) => Math.max(prev - 1, 1))
                     }
-                    className={`
-              cursor-pointer
-              bg-white/5
-              border border-white/10
-              text-slate-300
-              hover:bg-cyan-500/20
-              hover:text-white
-              transition-all duration-300
-              backdrop-blur-xl
-              ${currentPage === 1 ? "opacity-40 pointer-events-none" : ""}
-            `}
+                    className={`cursor-pointer bg-white/5 border border-white/10 text-slate-300 hover:bg-cyan-500/20 hover:text-white transition-all duration-300 backdrop-blur-xl ${
+                      currentPage === 1 ? "opacity-40 pointer-events-none" : ""
+                    }`}
                   />
                 </PaginationItem>
 
@@ -520,18 +352,11 @@ export default function VideosPage() {
                       <PaginationLink
                         onClick={() => setCurrentPage(page)}
                         isActive={isActive}
-                        className={`
-                  cursor-pointer
-                  rounded-lg
-                  border
-                  transition-all duration-300
-                  backdrop-blur-xl
-                  ${
-                    isActive
-                      ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-transparent shadow-lg shadow-cyan-500/20 scale-105"
-                      : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10 hover:text-white"
-                  }
-                `}
+                        className={`cursor-pointer rounded-lg border transition-all duration-300 backdrop-blur-xl ${
+                          isActive
+                            ? "bg-gradient-to-r from-cyan-500 to-blue-600 text-white border-transparent shadow-lg shadow-cyan-500/20 scale-105"
+                            : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10 hover:text-white"
+                        }`}
                       >
                         {page}
                       </PaginationLink>
@@ -545,17 +370,11 @@ export default function VideosPage() {
                     onClick={() =>
                       setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                     }
-                    className={`
-              cursor-pointer
-              bg-white/5
-              border border-white/10
-              text-slate-300
-              hover:bg-cyan-500/20
-              hover:text-white
-              transition-all duration-300
-              backdrop-blur-xl
-              ${currentPage === totalPages ? "opacity-40 pointer-events-none" : ""}
-            `}
+                    className={`cursor-pointer bg-white/5 border border-white/10 text-slate-300 hover:bg-cyan-500/20 hover:text-white transition-all duration-300 backdrop-blur-xl ${
+                      currentPage === totalPages
+                        ? "opacity-40 pointer-events-none"
+                        : ""
+                    }`}
                   />
                 </PaginationItem>
               </PaginationContent>
@@ -584,13 +403,7 @@ export default function VideosPage() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedVideo(null)}
-                className="
-    absolute top-4 right-4 z-50 p-2
-    rounded-full text-white
-    bg-gradient-to-r from-cyan-500 to-blue-500
-    hover:from-red-500 hover:to-red-600
-    transition-all duration-300
-  "
+                className="absolute top-4 right-4 z-50 p-2 rounded-full text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-red-500 hover:to-red-600 transition-all duration-300"
               >
                 <X size={18} />
               </button>
@@ -605,19 +418,15 @@ export default function VideosPage() {
               </div>
 
               <div className="p-6">
-                <h3 className="text-xl text-white font-bold mb-3">
-                  {selectedVideo.title}
+                <h3 className="text-xl text-white font-bold mb-4">
+                  {videoTitles[selectedVideo.id]}
                 </h3>
-
-                <p className="text-gray-400 mb-4">
-                  {selectedVideo.description}
-                </p>
 
                 <Link
                   href={`https://youtube.com/watch?v=${selectedVideo.videoId}`}
                   target="_blank"
                 >
-                  <Button className="  bg-gradient-to-r from-cyan-500 to-blue-500  hover:from-red-500 hover:to-red-600 text-white">
+                  <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-red-500 hover:to-red-600 text-white">
                     <ExternalLink size={16} className="mr-2" />
                     Watch on YouTube
                   </Button>
