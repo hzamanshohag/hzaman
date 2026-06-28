@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/shared/Navbar";
 import FooterSection from "@/components/shared/FooterSection";
+import HzamanImage from "@/public/hero-img-1.jpg";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,42 +21,52 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://hzaman.vercel.app"),
 
   title: {
-    default:
-      "Md Hasanuzzaman Shohag | Full-Stack Developer & Digital Marketing Strategist",
+    default: "Md Hasanuzzaman Shohag | Full-Stack Developer",
     template: "%s | Md Hasanuzzaman Shohag",
   },
 
   description:
-    "Md Hasanuzzaman Shohag is a Full-Stack Developer and Digital Marketing Strategist specializing in Next.js, TypeScript, scalable web applications, SEO, and performance-driven digital solutions.",
+    "Md Hasanuzzaman Shohag is a Junior Full-Stack Developer specializing in Next.js, React, TypeScript, Node.js, Express.js, MongoDB, and building scalable web applications.",
 
   keywords: [
     "Md Hasanuzzaman Shohag",
+    "Hasanuzzaman Shohag",
     "Full Stack Developer",
-    "MERN Developer",
+    "Junior Full Stack Developer",
+    "MERN Stack Developer",
     "Next.js Developer",
     "React Developer",
     "TypeScript Developer",
-    "Digital Marketing Strategist",
-    "SEO Specialist",
+    "Node.js Developer",
+    "Express.js Developer",
     "MongoDB Developer",
+    "Portfolio",
   ],
 
-  authors: [{ name: "Md Hasanuzzaman Shohag" }],
+  authors: [
+    {
+      name: "Md Hasanuzzaman Shohag",
+      url: "https://hzaman.vercel.app",
+    },
+  ],
 
   creator: "Md Hasanuzzaman Shohag",
+  publisher: "Md Hasanuzzaman Shohag",
 
   openGraph: {
-    title:
-      "Md Hasanuzzaman Shohag | Full-Stack MERN Developer & Digital Marketing Strategist",
-    description:
-      "Building scalable MERN applications and integrating data-driven marketing strategies to drive measurable business growth.",
-    url: "https://hzaman.vercel.app",
-    siteName: "Md Hasanuzzaman Shohag Portfolio",
     type: "website",
     locale: "en_US",
+    url: "https://hzaman.vercel.app",
+    siteName: "Hzaman Portfolio",
+
+    title: "Md Hasanuzzaman Shohag | Full-Stack Developer",
+
+    description:
+      "Explore the portfolio of Md Hasanuzzaman Shohag, a Junior Full-Stack Developer building modern web applications using React, Next.js, TypeScript, Node.js, Express.js, and MongoDB.",
+
     images: [
       {
-        url: "https://hzaman.netlify.app/images/hero/2.png",
+        url: HzamanImage.src,
         width: 1200,
         height: 630,
         alt: "Md Hasanuzzaman Shohag - Full Stack Developer",
@@ -64,16 +76,31 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title:
-      "Md Hasanuzzaman Shohag | Full-Stack MERN Developer & Digital Marketing Strategist",
+
+    title: "Md Hasanuzzaman Shohag | Full-Stack Developer",
+
     description:
-      "Full-Stack MERN Developer specializing in scalable applications, Next.js, TypeScript, SEO & performance optimization.",
-    images: ["https://hzaman.netlify.app/images/hero/2.png"],
+      "Junior Full-Stack Developer passionate about React, Next.js, TypeScript, Node.js, Express.js, MongoDB, and building scalable web applications.",
+
+    creator: "@hzaman_shohag",
+
+    images: [HzamanImage.src],
   },
 
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+
+  alternates: {
+    canonical: "https://hzaman.vercel.app",
   },
 
   category: "technology",

@@ -163,7 +163,7 @@ const SkillsSection = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className="relative min-h-screen py-24 px-4 bg-gradient-to-br from-[#0a0a0a] via-[#0f0f0f] to-[#141414]"
+      className="relative min-h-screen py-24 px-4 overflow-x-hidden bg-gradient-to-br from-[#0a0a0a] via-[#0f0f0f] to-[#141414]"
     >
       {/* Ambient Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(6,182,212,0.12),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(59,130,246,0.1),transparent_40%)]" />

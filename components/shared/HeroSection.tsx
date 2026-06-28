@@ -18,6 +18,9 @@ import {
   Terminal,
   Play,
   X,
+  Linkedin,
+  Github,
+  Download,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -52,13 +55,16 @@ const HeroSection = () => {
   const y: MotionValue<number> = useSpring(mousePosition.y, springConfig);
 
   useEffect(() => {
-    const words: string[] = [
-      "Junior Full Stack Developer",
-      "Performance Focused",
-      "Passionate Problem Solver",
-      "Turning Ideas into Reality",
-      "Continuous Learner",
-    ];
+ const words: string[] = [
+   "Junior Full-Stack Developer",
+   "React & Next.js Developer",
+   "Node.js & Express Developer",
+   "TypeScript Enthusiast",
+   "REST API Developer",
+   "Building Responsive Web Apps",
+   "Passionate Problem Solver",
+   "Always Learning, Always Improving",
+ ];
 
     const currentWord = words[currentWordIndex];
     const typingSpeed = isDeleting ? 50 : 100;
@@ -134,7 +140,7 @@ const HeroSection = () => {
         transition={{ duration: 15, repeat: Infinity, repeatType: "reverse" }}
       />
 
-      {/* Particles - Pointer events none to allow clicking through */}
+      {/* Particles */}
       <motion.div className="absolute inset-0 overflow-hidden pointer-events-none">
         {particles.map((particle: Particle) => (
           <motion.div
@@ -269,22 +275,8 @@ const HeroSection = () => {
         ))}
       </motion.div>
 
-      {/* Grid lines */}
-      {/* <motion.div
-        className="absolute inset-0 opacity-20 pointer-events-none"
-        style={{ x: x.get() * 0.3, y: y.get() * 0.3 }}
-      >
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: "50px 50px",
-          }}
-        />
-      </motion.div> */}
-
       {/* Grid Overlay */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
@@ -298,16 +290,15 @@ const HeroSection = () => {
       </div>
 
       {/* Main Content */}
-      {/* Added padding-top to clear navbar, reversed column for mobile, centered content */}
-      <div className="relative z-10 flex flex-col-reverse lg:flex-row items-center justify-center min-h-screen pt-20 pb-12 px-4 sm:px-6 lg:px-12 gap-8 lg:gap-16">
-        {/* Left side - Text content */}
+      <div className="relative z-10 flex flex-col-reverse lg:flex-row items-center justify-center min-h-screen pt-20 pb-16 px-4 sm:px-6 lg:px-12 gap-8 lg:gap-16">
+        {/* ── Left side – Text content ── */}
         <motion.div
           className="flex-1 max-w-2xl text-center lg:text-left w-full"
           initial={{ opacity: 0, x: -50 }}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.8 }}
         >
-          {/* ===== Status Badge ===== */}
+          {/* Status Badge */}
           <motion.div
             className="mb-4 flex justify-center lg:justify-start"
             initial={{ opacity: 0 }}
@@ -318,6 +309,7 @@ const HeroSection = () => {
               🚀 Available for Freelance Projects
             </div>
           </motion.div>
+
           <motion.div
             className="mb-2 sm:mb-4"
             initial={{ opacity: 0 }}
@@ -342,19 +334,19 @@ const HeroSection = () => {
             Hasanuzzaman
           </motion.h1>
 
-          {/* Responsive Typing Height */}
+          {/* Typing animation */}
           <motion.div
-            className="h-10 sm:h-12 md:h-14 lg:h-16 mb-4 sm:mb-6 flex items-center justify-center lg:justify-start"
+            className="min-h-[3rem] sm:min-h-[3.5rem] md:min-h-[4rem] lg:min-h-[4.5rem] mb-4 sm:mb-6 flex items-center justify-center lg:justify-start overflow-hidden"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.6 }}
           >
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 font-semibold">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">
               {displayText}
               <motion.span
                 animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-                className="inline-block ml-1"
+                transition={{ duration: 0.7, repeat: Infinity }}
+                className="inline-block ml-1 align-middle"
               >
                 |
               </motion.span>
@@ -373,6 +365,7 @@ const HeroSection = () => {
             continuously expanding my skills through real-world projects.
           </motion.p>
 
+          {/* Tech icons */}
           <motion.div
             className="flex justify-center lg:justify-start gap-4 sm:gap-6 mb-6 sm:mb-8"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -401,100 +394,98 @@ const HeroSection = () => {
             })}
           </motion.div>
 
+          {/* ── CTA Row ── */}
           <motion.div
-            className="flex items-center gap-4 justify-center lg:justify-start"
+            className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 1.2 }}
           >
-            {/* Arrow Icon */}
-            {/* Arrow Icon */}
-            <motion.div
-              className="relative flex items-center justify-center"
-              animate={{
-                y: [0, -12, 0],
-                rotate: [0, 4, -4, 0],
-                scale: [1, 1.05, 1],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              {/* Glow Background */}
+            {/* Arrow + Play button group */}
+            <div className="flex items-center gap-3 shrink-0">
+              {/* Animated arrow */}
               <motion.div
-                className="absolute w-14 h-14 rounded-full bg-cyan-400/20 blur-xl"
+                className="relative flex items-center justify-center"
                 animate={{
-                  scale: [1, 1.4, 1],
-                  opacity: [0.5, 0.2, 0.5],
+                  y: [0, -12, 0],
+                  rotate: [0, 4, -4, 0],
+                  scale: [1, 1.05, 1],
                 }}
                 transition={{
                   duration: 3,
                   repeat: Infinity,
                   ease: "easeInOut",
                 }}
-              />
+              >
+                <motion.div
+                  className="absolute w-14 h-14 rounded-full bg-cyan-400/20 blur-xl"
+                  animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0.2, 0.5] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+                <Image
+                  src={arrow}
+                  alt="arrow"
+                  width={44}
+                  height={44}
+                  className="relative z-10 drop-shadow-[0_0_10px_rgba(34,211,238,0.6)]"
+                />
+              </motion.div>
 
-              <Image
-                src={arrow}
-                alt="arrow"
-                width={44}
-                height={44}
-                className="relative z-10 drop-shadow-[0_0_10px_rgba(34,211,238,0.6)]"
-              />
-            </motion.div>
-
-            {/* Play Button + Text */}
-            <div className="flex items-center gap-4">
-              {/* Animated Play Button */}
+              {/* Play button */}
               <motion.button
                 onClick={() => setIsVideoOpen(true)}
-                whileHover={{ scale: 1.15 }}
-                whileTap={{ scale: 0.9 }}
-                animate={{
-                  boxShadow: [
-                    "0 0 0px rgba(34,211,238,0.4)",
-                    "0 0 20px rgba(34,211,238,0.6)",
-                    "0 0 0px rgba(34,211,238,0.4)",
-                  ],
-                  scale: [1, 1.05, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="
-        relative
-        w-16 h-16
-        flex items-center justify-center
-        rounded-full
-        bg-white/10
-        border border-white/20
-        backdrop-blur-md
-        text-cyan-400
-        hover:bg-cyan-500
-        hover:text-white
-        hover:border-cyan-400
-        transition-all duration-300
-      "
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-cyan-400 hover:bg-cyan-500 hover:text-white hover:border-cyan-400 transition-all duration-300 shrink-0"
+                aria-label="Play work process video"
               >
-                {/* Pulse Ring */}
                 <span className="absolute inset-0 rounded-full border border-cyan-400/40 animate-ping" />
-
-                <Play size={22} />
+                <Play size={18} className="sm:w-5 sm:h-5" />
               </motion.button>
+            </div>
 
-              {/* Work Process Text */}
-              <span className="text-white text-lg font-medium leading-tight">
-                Work <br /> Process
-              </span>
+            {/* Action buttons */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 w-full sm:w-auto">
+              {/* Resume Download */}
+              <a
+                href="/resume.pdf"
+                download="Hasanuzzaman_Resume.pdf"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-cyan-500 hover:bg-cyan-400 active:bg-cyan-600 text-white text-sm font-semibold transition-all duration-200 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-400/40 whitespace-nowrap"
+              >
+                <Download size={15} />
+                Download Resume
+              </a>
+
+              {/* GitHub */}
+              <a
+                href="https://github.com/hzamanshohag"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 active:bg-white/30 border border-white/20 hover:border-white/40 text-white transition-all duration-200 shrink-0"
+                aria-label="GitHub Profile"
+              >
+                <Github size={17} />
+              </a>
+
+              {/* LinkedIn */}
+              <a
+                href="https://linkedin.com/in/hzaman-shohag"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-[#0077b5]/60 active:bg-[#0077b5]/80 border border-white/20 hover:border-[#0077b5]/60 text-white transition-all duration-200 shrink-0"
+                aria-label="LinkedIn Profile"
+              >
+                <Linkedin size={17} />
+              </a>
             </div>
           </motion.div>
         </motion.div>
 
-        {/* Right side - Image */}
+        {/* ── Right side – Image ── */}
         <motion.div
           className="flex-1 max-w-sm sm:max-w-lg w-full flex justify-center"
           initial={{ opacity: 0, x: 50 }}
@@ -513,7 +504,7 @@ const HeroSection = () => {
               transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             />
 
-            {/* Image container - Responsive Height */}
+            {/* Image container */}
             <div className="relative z-10 rounded-2xl overflow-hidden border-4 border-cyan-400/30 shadow-2xl">
               <motion.div
                 className="relative w-full h-72 sm:h-80 md:h-96 lg:h-[450px] xl:h-[500px]"
@@ -532,7 +523,7 @@ const HeroSection = () => {
               </motion.div>
             </div>
 
-            {/* Badges - Responsive positioning and size */}
+            {/* Badges */}
             <motion.div
               className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white px-3 py-1 rounded-full shadow-lg z-10"
               animate={{ y: [0, -10, 0] }}
@@ -561,6 +552,7 @@ const HeroSection = () => {
         <ChevronDown size={28} className="sm:w-8 sm:h-8" />
       </motion.div>
 
+      {/* Video Modal */}
       <AnimatePresence>
         {isVideoOpen && (
           <motion.div
@@ -579,15 +571,13 @@ const HeroSection = () => {
               transition={{ duration: 0.3 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Close Button */}
               <button
                 onClick={() => setIsVideoOpen(false)}
-                className="absolute top-4 right-4 z-50 p-2  bg-gradient-to-r from-cyan-500 to-blue-500  backdrop-blur rounded-full text-white hover:from-red-500 hover:to-red-600 transition-all duration-300"
+                className="absolute top-4 right-4 z-50 p-2 bg-gradient-to-r from-cyan-500 to-blue-500 backdrop-blur rounded-full text-white hover:from-red-500 hover:to-red-600 transition-all duration-300"
               >
                 <X size={18} />
               </button>
 
-              {/* Video */}
               <div className="relative aspect-video">
                 {isVideoOpen && (
                   <iframe

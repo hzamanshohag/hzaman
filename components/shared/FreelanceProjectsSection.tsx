@@ -15,6 +15,7 @@ import {
   UserCheck,
   Layers,
   Monitor,
+  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,11 +24,13 @@ import Link from "next/link";
 
 import project1Image from "@/public/img/project/dotmart.png";
 
+type ProjectCategory = "ecommerce" | "portfolio" | "saas" | "other";
+
 interface FreelanceProject {
   id: number;
   title: string;
   client: string;
-  category: string;
+  category: ProjectCategory;
   description: string;
   image: StaticImageData
   technologies: string[];
@@ -49,7 +52,7 @@ const FreelanceProjectsSection = () => {
       id: 1,
       title: "Scalable E-Commerce Platform",
       client: "FashionHub Retail",
-      category: "E-Commerce",
+      category: "ecommerce",
       description:
         "A modern, high-performance e-commerce system featuring real-time inventory tracking, secure Stripe payments, and an advanced admin dashboard for analytics.",
       image: project1Image,
@@ -67,7 +70,7 @@ const FreelanceProjectsSection = () => {
       id: 2,
       title: "HealthTech Telemedicine App",
       client: "MediCare Solutions",
-      category: "Healthcare",
+      category: "other",
       description:
         "A HIPAA-compliant telemedicine platform enabling secure video consultations, seamless appointment scheduling, and digital health record management.",
       image: project1Image,
@@ -85,7 +88,7 @@ const FreelanceProjectsSection = () => {
       id: 3,
       title: "Real Estate CRM Portal",
       client: "PrimeNest Agency",
-      category: "PropTech",
+      category: "other",
       description:
         "A custom CRM tailored for real estate agencies to manage property listings, track client interactions, and automate lead nurturing.",
       image: project1Image,
@@ -278,6 +281,7 @@ const FreelanceProjectsSection = () => {
                     ))}
                   </ul>
                 </div>
+               
 
                 {/* 🎯 Your Role */}
                 <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-xl p-4">
@@ -364,7 +368,7 @@ const FreelanceProjectsSection = () => {
         </div>
 
         {/* View All CTA */}
-        <div className="text-center mt-16">
+        <motion.div className="text-center mt-10 sm:mt-12 md:mt-14">
           <Link href="/freelance-projects">
             <Button
               size="lg"
@@ -377,7 +381,7 @@ const FreelanceProjectsSection = () => {
               <span className="absolute inset-0 -translate-x-full bg-white/20 transition-transform duration-700 group-hover:translate-x-full" />
             </Button>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

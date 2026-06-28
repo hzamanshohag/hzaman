@@ -17,6 +17,9 @@ import {
   TrendingUp,
   ArrowRight,
   FolderKanban,
+  CheckCircle2,
+  Monitor,
+  Sparkles,
 } from "lucide-react";
 
 import {
@@ -37,7 +40,7 @@ import project1Image from "@/public/img/project/dotmart.png";
 type ProjectCategory = "ecommerce" | "portfolio" | "saas" | "other";
 
 interface FreelanceProject {
-  id: string;
+  id: number;
   title: string;
   client: string;
   category: ProjectCategory;
@@ -55,7 +58,7 @@ interface FreelanceProject {
 
 const FREELANCE_DATA: FreelanceProject[] = [
   {
-    id: "1",
+    id: 1,
     title: "Scalable E-Commerce Platform",
     client: "FashionHub Retail",
     category: "ecommerce",
@@ -73,7 +76,7 @@ const FREELANCE_DATA: FreelanceProject[] = [
     achievements: ["300% sales increase", "50K+ active users", "99.9% uptime"],
   },
   {
-    id: "2",
+    id: 2,
     title: "HealthTech Telemedicine Platform",
     client: "MediCare Solutions",
     category: "portfolio",
@@ -94,7 +97,7 @@ const FREELANCE_DATA: FreelanceProject[] = [
     ],
   },
   {
-    id: "3",
+    id: 3,
     title: "SaaS HR Management System",
     client: "PeopleFirst Corp",
     category: "saas",
@@ -116,7 +119,7 @@ const FREELANCE_DATA: FreelanceProject[] = [
     ],
   },
   {
-    id: "4",
+    id: 4,
     title: "Digital Marketing Analytics Dashboard",
     client: "GrowthMetrics Agency",
     category: "saas",
@@ -144,7 +147,7 @@ const FREELANCE_DATA: FreelanceProject[] = [
     ],
   },
   {
-    id: "5",
+    id: 6,
     title: "Multi-Vendor Food Delivery App",
     client: "QuickBite Bangladesh",
     category: "ecommerce",
@@ -172,7 +175,7 @@ const FREELANCE_DATA: FreelanceProject[] = [
     ],
   },
   {
-    id: "6",
+    id: 7,
     title: "AI Content Generator SaaS",
     client: "ContentAI Labs",
     category: "saas",
@@ -194,7 +197,7 @@ const FREELANCE_DATA: FreelanceProject[] = [
     ],
   },
   {
-    id: "7",
+    id: 8,
     title: "Real Estate Listing Platform",
     client: "PropFinder BD",
     category: "other",
@@ -216,7 +219,7 @@ const FREELANCE_DATA: FreelanceProject[] = [
     ],
   },
   {
-    id: "8",
+    id: 9,
     title: "EdTech Learning Management System",
     client: "SkillUp Academy",
     category: "saas",
@@ -238,7 +241,7 @@ const FREELANCE_DATA: FreelanceProject[] = [
     ],
   },
   {
-    id: "9",
+    id: 10,
     title: "Social Media Growth Campaign",
     client: "BrandBoost Agency",
     category: "saas",
@@ -270,7 +273,11 @@ const FREELANCE_DATA: FreelanceProject[] = [
 const categories = [
   { id: "all", name: "All", icon: <Briefcase size={15} /> },
   { id: "ecommerce", name: "E-Commerce", icon: <ShoppingCart size={15} /> },
-  { id: "portfolio", name: "Portfolio Website", icon: <FolderKanban size={15} /> },
+  {
+    id: "portfolio",
+    name: "Portfolio Website",
+    icon: <FolderKanban size={15} />,
+  },
   { id: "saas", name: "SaaS", icon: <LayoutDashboard size={15} /> },
   { id: "other", name: "Other", icon: <Tag size={15} /> },
 ] as const;
@@ -500,15 +507,17 @@ export default function FreelanceProjectsPage() {
                     )}
                   </div>
 
-                  <Button
-                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl"
+                  {/* ── View Details Button ── */}
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedProject(project);
                     }}
+                    className="flex items-center justify-center gap-1.5 text-xs sm:text-sm text-cyan-400 hover:text-cyan-300 transition-colors duration-200 mb-3 sm:mb-4 py-1.5 sm:py-2 rounded-lg bg-cyan-500/5 border border-cyan-500/10 hover:border-cyan-500/25 hover:bg-cyan-500/10 w-full"
                   >
-                    View Details <ArrowRight size={16} className="ml-2" />
-                  </Button>
+                    <Sparkles size={12} className="sm:w-3.5 sm:h-3.5" />
+                    View Details
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -592,7 +601,7 @@ export default function FreelanceProjectsPage() {
               </button>
 
               {/* Image Header */}
-              <div className="relative h-56 overflow-hidden">
+              {/* <div className="relative h-56 overflow-hidden">
                 <div
                   className="
               absolute top-0 left-0 w-full
@@ -610,6 +619,29 @@ export default function FreelanceProjectsPage() {
                   />
                 </div>
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-black/30 to-transparent" />
+              </div> */}
+
+              {/* Image Header */}
+              <div className="relative h-56 overflow-hidden">
+                <div className="absolute top-0 left-0 w-full transition-transform duration-[8000ms] ease-linear group-hover:-translate-y-[calc(100%-14rem)]">
+                  <Image
+                    src={selectedProject.image}
+                    alt={selectedProject.title}
+                    width={1920}
+                    height={4933}
+                    className="w-full h-auto"
+                    priority
+                  />
+                </div>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0f0f0f] via-black/30 to-transparent" />
+
+                {/* Category Badge Overlay */}
+                <div className="absolute bottom-4 left-5">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/70 backdrop-blur-sm border border-cyan-400/20 text-[10px] font-semibold uppercase tracking-wider text-cyan-400">
+                    <Monitor size={11} />
+                    {selectedProject.category}
+                  </span>
+                </div>
               </div>
 
               <div className="p-6">
@@ -622,7 +654,6 @@ export default function FreelanceProjectsPage() {
                 <p className="text-slate-400 mb-5">
                   {selectedProject.longDescription}
                 </p>
-
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
                   {[
                     {
@@ -660,10 +691,9 @@ export default function FreelanceProjectsPage() {
                     </div>
                   ))}
                 </div>
-
-                <div className="mb-5">
+                {/* <div className="mb-5">
                   <p className="text-slate-500 text-xs uppercase tracking-wider mb-2 font-medium">
-                    Key Achievements
+                    Key Features
                   </p>
                   <div className="flex flex-col gap-1.5">
                     {selectedProject.achievements.map((item) => (
@@ -679,8 +709,27 @@ export default function FreelanceProjectsPage() {
                       </div>
                     ))}
                   </div>
+                </div> */}
+                {/* Key Features (Matches Freelance Achievements layout) */}
+                <div className="mb-5">
+                  <p className="text-slate-500 text-xs uppercase tracking-wider mb-2 font-medium">
+                    Key Features
+                  </p>
+                  <div className="flex flex-col gap-1.5">
+                    {selectedProject.achievements.map((item, i) => (
+                      <div
+                        key={i}
+                        className="flex items-start gap-2 text-slate-300 text-sm"
+                      >
+                        <CheckCircle2
+                          size={13}
+                          className="text-cyan-400 shrink-0 mt-0.5"
+                        />
+                        <span className="break-words">{item}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-
                 <div className="mb-6">
                   <p className="text-slate-500 text-xs uppercase tracking-wider mb-2 font-medium">
                     Tech Stack
@@ -696,7 +745,6 @@ export default function FreelanceProjectsPage() {
                     ))}
                   </div>
                 </div>
-
                 <div className="flex gap-3">
                   <Link
                     href={selectedProject.liveUrl}

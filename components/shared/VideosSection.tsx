@@ -169,7 +169,7 @@ const VideosSection = () => {
         </div>
 
         {/* View All Button */}
-        <div className="flex justify-center mt-14">
+        <div className="flex justify-center text-center mt-10 sm:mt-12 md:mt-14">
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link href="/videos">
               <Button
